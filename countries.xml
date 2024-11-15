@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<countries>
+    <country>
+        <name>Poland</name>
+    </country>
+    <country>
+        <name>Germany</name>
+    </country>
+    <country>
+        <name>France</name>
+    </country>
+    <country>
+        <name>Spain</name>
+    </country>
+    <country>
+        <name>Italy</name>
+    </country>
+    <country>
+        <name>United Kingdom</name>
+    </country>
+    <country>
+        <name>United States</name>
+    </country>
+    <country>
+        <name>Canada</name>
+    </country>
+    <country>
+        <name>Australia</name>
+    </country>
+</countries>

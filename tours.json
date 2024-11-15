@@ -1,0 +1,18 @@
+{
+  "tours": [
+    {
+      "agencyId": 1,
+      "countryId": 1,
+      "pricePerPerson": 2500,
+      "startDate": "2024-09-01",
+      "endDate": "2024-09-10"
+    },
+    {
+      "agencyId": 2,
+      "countryId": 2,
+      "pricePerPerson": 3000,
+      "startDate": "2024-10-05",
+      "endDate": "2024-10-15"
+    }
+  ]
+}

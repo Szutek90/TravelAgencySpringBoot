@@ -2,8 +2,8 @@ package com.app.service.impl;
 
 import com.app.dto.travel_agency.CreateTravelAgencyDto;
 import com.app.dto.travel_agency.GetTravelAgencyDto;
-import com.app.model.agency.TravelAgency;
-import com.app.model.agency.TravelAgencyMapper;
+import com.app.entity.agency.TravelAgency;
+import com.app.entity.agency.TravelAgencyMapper;
 import com.app.repository.TravelAgencyRepository;
 import com.app.service.TravelAgencyService;
 import lombok.RequiredArgsConstructor;

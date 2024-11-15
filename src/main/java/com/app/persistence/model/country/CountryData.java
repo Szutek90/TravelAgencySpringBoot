@@ -1,6 +1,6 @@
 package com.app.persistence.model.country;
 
-import com.app.model.country.Country;
+import com.app.entity.country.Country;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -18,11 +18,9 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class CountryData {
     @XmlElement
-    private Integer id;
-    @XmlElement
     private String name;
 
     public Country toCountry() {
-        return new Country(id, name);
+        return new Country(name);
     }
 }

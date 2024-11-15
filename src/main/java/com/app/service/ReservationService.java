@@ -2,11 +2,11 @@ package com.app.service;
 
 import com.app.dto.reservation.CreateReservationDto;
 import com.app.dto.reservation.GetReservationDto;
-import com.app.model.TourWithClosestAvgPriceByAgency;
-import com.app.model.agency.TravelAgency;
-import com.app.model.country.Country;
-import com.app.model.reservation.Reservation;
-import com.app.model.tour.Tour;
+import com.app.entity.TourWithClosestAvgPriceByAgency;
+import com.app.entity.agency.TravelAgency;
+import com.app.entity.country.Country;
+import com.app.entity.reservation.Reservation;
+import com.app.entity.tour.Tour;
 
 import java.util.List;
 import java.util.Map;

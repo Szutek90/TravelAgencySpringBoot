@@ -1,6 +1,6 @@
 package com.app.persistence.model.country;
 
-import com.app.model.country.Country;
+import com.app.entity.country.Country;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;

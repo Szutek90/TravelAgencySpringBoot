@@ -1,0 +1,17 @@
+<travelAgencies>
+    <travelAgency>
+        <name>Sunshine Travels</name>
+        <city>Warszawa</city>
+        <phoneNumber>+48 123 456 789</phoneNumber>
+    </travelAgency>
+    <travelAgency>
+        <name>Adventure Seekers</name>
+        <city>Kraków</city>
+        <phoneNumber>+48 987 654 321</phoneNumber>
+    </travelAgency>
+    <travelAgency>
+        <name>Relaxation Retreats</name>
+        <city>Gdańsk</city>
+        <phoneNumber>+48 564 738 290</phoneNumber>
+    </travelAgency>
+</travelAgencies>

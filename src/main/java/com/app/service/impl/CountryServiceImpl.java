@@ -2,7 +2,7 @@ package com.app.service.impl;
 
 import com.app.dto.country.CreateCountryDto;
 import com.app.dto.country.GetCountryDto;
-import com.app.model.country.Country;
+import com.app.entity.country.Country;
 import com.app.repository.CountryRepository;
 import com.app.service.CountryService;
 import lombok.RequiredArgsConstructor;

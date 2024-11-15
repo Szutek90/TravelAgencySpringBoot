@@ -1,7 +1,7 @@
 package com.app.converter.countries.impl;
 
 import com.app.converter.countries.FileToCountriesConverter;
-import com.app.model.country.Country;
+import com.app.entity.country.Country;
 import com.app.persistence.json.deserializer.JsonDeserializer;
 import com.app.persistence.model.country.CountriesData;
 import lombok.RequiredArgsConstructor;

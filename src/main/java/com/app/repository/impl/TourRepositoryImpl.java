@@ -1,7 +1,7 @@
 package com.app.repository.impl;
 
 import com.app.converter.tours.FileToToursConverter;
-import com.app.model.tour.Tour;
+import com.app.entity.tour.Tour;
 import com.app.repository.TourRepository;
 import com.app.repository.generic.AbstractCrudRepository;
 import org.jdbi.v3.core.Jdbi;
@@ -44,7 +44,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)
                 .bind("countryName", countryName)
-                .mapToBean(type)
+                .mapToBean(entityType)
                 .list());
     }
 
@@ -56,7 +56,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
                 .createQuery(sql)
                 .bind("from", from)
                 .bind("to", to)
-                .mapToBean(type)
+                .mapToBean(entityType)
                 .list());
     }
 
@@ -66,7 +66,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)
                 .bind("to", to)
-                .mapToBean(type)
+                .mapToBean(entityType)
                 .list());
     }
 
@@ -76,7 +76,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)
                 .bind("from", from)
-                .mapToBean(type)
+                .mapToBean(entityType)
                 .list());
     }
 
@@ -87,7 +87,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
                 .createQuery(sql)
                 .bind("from", from)
                 .bind("to", to)
-                .mapToBean(type)
+                .mapToBean(entityType)
                 .list());
     }
 
@@ -97,7 +97,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)
                 .bind("to", to)
-                .mapToBean(type)
+                .mapToBean(entityType)
                 .list());
     }
 
@@ -107,7 +107,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)
                 .bind("from", from)
-                .mapToBean(type)
+                .mapToBean(entityType)
                 .list());
     }
 
@@ -117,7 +117,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)
                 .bind("agencyId", agencyId)
-                .mapToBean(type)
+                .mapToBean(entityType)
                 .list());
     }
 }

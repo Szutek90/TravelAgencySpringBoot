@@ -1,6 +1,6 @@
 package com.app.repository.impl;
 
-import com.app.model.ReservationComponent;
+import com.app.entity.ReservationComponent;
 import com.app.repository.ReservationComponentRepository;
 import com.app.repository.generic.AbstractCrudRepository;
 import org.jdbi.v3.core.Jdbi;

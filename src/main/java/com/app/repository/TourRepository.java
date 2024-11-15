@@ -1,6 +1,6 @@
 package com.app.repository;
 
-import com.app.model.tour.Tour;
+import com.app.entity.tour.Tour;
 import com.app.repository.generic.CrudRepository;
 
 import java.math.BigDecimal;

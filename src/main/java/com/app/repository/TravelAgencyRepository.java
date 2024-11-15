@@ -1,6 +1,6 @@
 package com.app.repository;
 
-import com.app.model.agency.TravelAgency;
+import com.app.entity.agency.TravelAgency;
 
 import java.util.List;
 import java.util.Optional;

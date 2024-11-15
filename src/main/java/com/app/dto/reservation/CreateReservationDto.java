@@ -1,11 +1,11 @@
 package com.app.dto.reservation;
 
-import com.app.model.ReservationComponent;
-import com.app.model.agency.TravelAgency;
-import com.app.model.agency.TravelAgencyMapper;
-import com.app.model.person.Person;
-import com.app.model.reservation.Reservation;
-import com.app.model.tour.Tour;
+import com.app.entity.ReservationComponent;
+import com.app.entity.agency.TravelAgency;
+import com.app.entity.agency.TravelAgencyMapper;
+import com.app.entity.person.Person;
+import com.app.entity.reservation.Reservation;
+import com.app.entity.tour.Tour;
 
 import java.util.List;
 
@@ -18,7 +18,6 @@ public record CreateReservationDto(Person customer,
 
     public Reservation toReservation() {
         return Reservation.builder()
-                .id(null)
                 .tourId(tour.getId())
                 .customerId(customer.getId())
                 .quantityOfPeople(quantityOfPeople)

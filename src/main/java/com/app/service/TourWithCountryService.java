@@ -1,7 +1,7 @@
 package com.app.service;
 
 import com.app.dto.TourDto;
-import com.app.model.tour.Tour;
+import com.app.entity.tour.Tour;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

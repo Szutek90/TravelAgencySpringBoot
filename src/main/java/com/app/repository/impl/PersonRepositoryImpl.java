@@ -1,6 +1,6 @@
 package com.app.repository.impl;
 
-import com.app.model.person.Person;
+import com.app.entity.person.Person;
 import com.app.repository.PersonRepository;
 import com.app.repository.generic.AbstractCrudRepository;
 import org.jdbi.v3.core.Jdbi;
@@ -22,7 +22,7 @@ public class PersonRepositoryImpl extends AbstractCrudRepository<Person, Integer
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)
                 .bind("surname", surname)
-                .mapToBean(type)
+                .mapToBean(entityType)
                 .list());
     }
 
@@ -34,7 +34,7 @@ public class PersonRepositoryImpl extends AbstractCrudRepository<Person, Integer
                 .createQuery(sql)
                 .bind("name", name)
                 .bind("surname", surname)
-                .mapToBean(type)
+                .mapToBean(entityType)
                 .findFirst());
     }
 
@@ -44,7 +44,7 @@ public class PersonRepositoryImpl extends AbstractCrudRepository<Person, Integer
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)
                 .bind("email", email)
-                .mapToBean(type)
+                .mapToBean(entityType)
                 .findFirst());
     }
 }

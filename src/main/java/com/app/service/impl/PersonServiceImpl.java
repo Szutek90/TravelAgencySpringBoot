@@ -3,7 +3,7 @@ package com.app.service.impl;
 import com.app.dto.person.CreatePersonDto;
 import com.app.dto.person.GetPersonDto;
 import com.app.dto.person.UpdatePersonDto;
-import com.app.model.person.Person;
+import com.app.entity.person.Person;
 import com.app.repository.PersonRepository;
 import com.app.service.PersonService;
 import lombok.RequiredArgsConstructor;

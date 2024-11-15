@@ -1,18 +1,18 @@
 package com.app.service.impl;
 
 import com.app.dto.TourDto;
-import com.app.model.country.CountryMapper;
-import com.app.model.tour.Tour;
+import com.app.entity.country.CountryMapper;
+import com.app.entity.tour.Tour;
 import com.app.repository.CountryRepository;
 import com.app.repository.TourRepository;
 import com.app.service.TourWithCountryService;
 import lombok.RequiredArgsConstructor;
-import org.jdbi.v3.core.collector.ElementTypeNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +23,7 @@ public class TourWithCountryServiceImpl implements TourWithCountryService {
     @Override
     public Tour getById(int id) {
         return tourRepository.findById(id)
-                .orElseThrow(() -> new ElementTypeNotFoundException("There is no Tour with given id"));
+                .orElseThrow(() -> new NoSuchElementException("There is no Tour with given id"));
     }
 
     @Override

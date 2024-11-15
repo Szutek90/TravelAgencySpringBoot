@@ -1,6 +1,6 @@
 package com.app.persistence.model.agency;
 
-import com.app.model.agency.TravelAgency;
+import com.app.entity.agency.TravelAgency;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -18,8 +18,6 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class TravelAgencyData {
     @XmlElement
-    private Integer id;
-    @XmlElement
     private String name;
     @XmlElement
     private String city;
@@ -27,6 +25,6 @@ public class TravelAgencyData {
     private String phoneNumber;
 
     public TravelAgency toTravelAgency(){
-        return new TravelAgency(id, name, city, phoneNumber);
+        return new TravelAgency(name, city, phoneNumber);
     }
 }

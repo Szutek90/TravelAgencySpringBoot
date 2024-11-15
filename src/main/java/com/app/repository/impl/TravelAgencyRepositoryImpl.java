@@ -1,8 +1,8 @@
 package com.app.repository.impl;
 
 import com.app.converter.agencies.FileToAgenciesConverter;
-import com.app.model.agency.TravelAgency;
-import com.app.model.agency.TravelAgencyMapper;
+import com.app.entity.agency.TravelAgency;
+import com.app.entity.agency.TravelAgencyMapper;
 import com.app.repository.TravelAgencyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

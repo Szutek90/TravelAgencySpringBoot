@@ -1,6 +1,6 @@
 package com.app.persistence.model.agency;
 
-import com.app.model.agency.TravelAgency;
+import com.app.entity.agency.TravelAgency;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;

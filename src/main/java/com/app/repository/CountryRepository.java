@@ -1,6 +1,6 @@
 package com.app.repository;
 
-import com.app.model.country.Country;
+import com.app.entity.country.Country;
 import com.app.repository.generic.CrudRepository;
 
 import java.util.Optional;

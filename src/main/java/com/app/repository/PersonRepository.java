@@ -1,6 +1,6 @@
 package com.app.repository;
 
-import com.app.model.person.Person;
+import com.app.entity.person.Person;
 import com.app.repository.generic.CrudRepository;
 
 import java.util.List;

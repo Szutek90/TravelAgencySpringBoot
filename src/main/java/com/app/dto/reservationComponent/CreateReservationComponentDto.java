@@ -1,6 +1,6 @@
 package com.app.dto.reservationComponent;
 
-import com.app.model.ReservationComponent;
+import com.app.entity.ReservationComponent;
 
 public record CreateReservationComponentDto(Integer id, ReservationComponent reservationComponent) {
 }
