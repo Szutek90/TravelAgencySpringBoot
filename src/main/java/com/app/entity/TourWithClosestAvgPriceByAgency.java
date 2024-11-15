@@ -1,6 +1,6 @@
 package com.app.entity;
 
-import com.app.entity.tour.Tour;
+import com.app.entity.tour.TourEntity;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -12,5 +12,5 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class TourWithClosestAvgPriceByAgency {
     private final BigDecimal averagePrice;
-    private final Tour tour;
+    private final TourEntity tourEntity;
 }

@@ -1,8 +1,7 @@
 package com.app.service.impl;
 
-import com.app.dto.country.CreateCountryDto;
-import com.app.dto.country.GetCountryDto;
-import com.app.entity.country.Country;
+import com.app.dto.CountryDto;
+import com.app.entity.country.CountryEntity;
 import com.app.repository.CountryRepository;
 import com.app.service.CountryService;
 import lombok.RequiredArgsConstructor;
@@ -15,21 +14,21 @@ import java.util.List;
 public class CountryServiceImpl implements CountryService {
     private final CountryRepository countryRepository;
 
-    public GetCountryDto addCountry(CreateCountryDto countryDto) {
+    public CountryDto addCountry(CountryDto countryDto) {
         if (countryRepository.findByCountry(countryDto.name()).isPresent()) {
             throw new IllegalArgumentException("Country already exists");
         }
 
-        var addedCountry = countryRepository.save(Country.builder()
+        var addedCountry = countryRepository.save(CountryEntity.builder()
                 .name(countryDto.name())
                 .build());
         return addedCountry.toGetCountryDto();
     }
 
-    public List<GetCountryDto> getAllCountries() {
+    public List<CountryDto> getAllCountries() {
         return countryRepository.findAll()
                 .stream()
-                .map(Country::toGetCountryDto)
+                .map(CountryEntity::toGetCountryDto)
                 .toList();
     }
 }

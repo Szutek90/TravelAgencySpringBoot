@@ -76,12 +76,7 @@ public abstract class AbstractCrudRepository<T, ID> implements CrudRepository<T,
             }
         }
         var sql = "update %s set %s where id = :id".formatted(tableName(), columnNamesAndValues(item));
-        var updatedRows = jdbi.withHandle(handle -> handle
-                .createUpdate(sql)
-                .bind("id", id)
-                .execute());
-
-        if (updatedRows == 0) {
+              if (updatedRows == 0) {
             throw new IllegalStateException("Row not updated");
         }
         return findById(id).orElseThrow();

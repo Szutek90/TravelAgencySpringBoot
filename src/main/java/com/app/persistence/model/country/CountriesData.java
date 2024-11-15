@@ -1,6 +1,6 @@
 package com.app.persistence.model.country;
 
-import com.app.entity.country.Country;
+import com.app.entity.country.CountryEntity;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,7 @@ public class CountriesData {
         return countries;
     }
 
-    public List<Country> getConvertedToCountries() {
+    public List<CountryEntity> getConvertedToCountries() {
         return countries.stream()
                 .map(CountryData::toCountry)
                 .toList();

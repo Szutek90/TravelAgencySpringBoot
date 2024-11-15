@@ -1,7 +1,7 @@
 package com.app.converter.countries.impl;
 
 import com.app.converter.countries.FileToCountriesConverter;
-import com.app.entity.country.Country;
+import com.app.entity.country.CountryEntity;
 import com.app.persistence.json.deserializer.JsonDeserializer;
 import com.app.persistence.model.country.CountriesData;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ public class JsonFileToCountriesConverterImpl implements FileToCountriesConverte
     private final JsonDeserializer<CountriesData> deserializer;
 
     @Override
-    public List<Country> convert(String filename) {
+    public List<CountryEntity> convert(String filename) {
         return deserializer.deserialize(filename).getConvertedToCountries();
     }
 }

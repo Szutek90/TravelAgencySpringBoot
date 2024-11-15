@@ -1,6 +1,6 @@
 package com.app.persistence.model.agency;
 
-import com.app.entity.agency.TravelAgency;
+import com.app.entity.agency.TravelAgencyEntity;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -24,7 +24,7 @@ public class TravelAgencyData {
     @XmlElement
     private String phoneNumber;
 
-    public TravelAgency toTravelAgency(){
-        return new TravelAgency(name, city, phoneNumber);
+    public TravelAgencyEntity toTravelAgency(){
+        return new TravelAgencyEntity(name, city, phoneNumber);
     }
 }

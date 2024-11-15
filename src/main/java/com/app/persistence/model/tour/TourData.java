@@ -1,6 +1,6 @@
 package com.app.persistence.model.tour;
 
-import com.app.entity.tour.Tour;
+import com.app.entity.tour.TourEntity;
 import com.app.persistence.xml.adapter.LocalDateAdapter;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -26,7 +26,7 @@ public class TourData {
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate endDate;
 
-    public Tour toTour(){
-        return new Tour(agencyId, countryId, pricePerPerson, startDate, endDate);
+    public TourEntity toTour(){
+        return new TourEntity(agencyId, countryId, pricePerPerson, startDate, endDate);
     }
 }

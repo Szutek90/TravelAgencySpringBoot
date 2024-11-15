@@ -1,6 +1,6 @@
 package com.app.persistence.model.tour;
 
-import com.app.entity.tour.Tour;
+import com.app.entity.tour.TourEntity;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class ToursData {
         return tours;
     }
 
-    public List<Tour> getConvertedToTours() {
+    public List<TourEntity> getConvertedToTours() {
         return tours.stream()
                 .map(TourData::toTour)
                 .toList();

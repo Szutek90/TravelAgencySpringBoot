@@ -1,4 +1,4 @@
-package com.app.dto.reservationComponent;
+package com.app.dto;
 
 import com.app.entity.ReservationComponent;
 

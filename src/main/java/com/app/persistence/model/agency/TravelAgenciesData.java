@@ -1,6 +1,6 @@
 package com.app.persistence.model.agency;
 
-import com.app.entity.agency.TravelAgency;
+import com.app.entity.agency.TravelAgencyEntity;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,7 @@ public class TravelAgenciesData {
         return travelAgencies;
     }
 
-    public List<TravelAgency> getConvertedToTravelAgencies() {
+    public List<TravelAgencyEntity> getConvertedToTravelAgencies() {
         return travelAgencies.stream()
                 .map(TravelAgencyData::toTravelAgency)
                 .toList();

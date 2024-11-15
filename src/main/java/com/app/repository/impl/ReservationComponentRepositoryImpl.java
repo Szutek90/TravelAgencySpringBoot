@@ -1,21 +1,42 @@
 package com.app.repository.impl;
 
 import com.app.entity.ReservationComponent;
+import com.app.entity.reservation.ReservationEntity;
 import com.app.repository.ReservationComponentRepository;
 import com.app.repository.generic.AbstractCrudRepository;
-import org.jdbi.v3.core.Jdbi;
+import com.app.repository.generic.EntityManagerWrapper;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public class ReservationComponentRepositoryImpl extends AbstractCrudRepository<ReservationComponent, Integer> implements ReservationComponentRepository {
-    public ReservationComponentRepositoryImpl(Jdbi jdbi) {
-        super(jdbi);
+
+    public ReservationComponentRepositoryImpl(EntityManagerFactory emf) {
+        super(emf);
     }
 
     @Override
     public List<ReservationComponent> findByReservationId(int id) {
+        EntityManager em = null;
+        EntityTransaction tx = null;
+        List<ReservationComponent> components = null;
+        try (var emw = new EntityManagerWrapper(emf)) {
+            em = emw.getEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
+            var reservation = em.createQuery("select r from ReservationEntity r where r.id = :id", ReservationEntity.class)
+                    .getSingleResult();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+
         var sql = "SELECT * FROM %s WHERE reservation_id = :reservation_id".formatted(tableName());
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)

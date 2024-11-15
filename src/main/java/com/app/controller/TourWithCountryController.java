@@ -3,18 +3,16 @@ package com.app.controller;
 import com.app.controller.dto.ResponseDto;
 import com.app.service.TourWithCountryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import spark.ResponseTransformer;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static spark.Spark.*;
-
-@Component
+@RestController
+@RequestMapping("/tour")
 @RequiredArgsConstructor
 public class TourWithCountryController {
-    private final ResponseTransformer responseTransformer;
     private final TourWithCountryService service;
 
     public void routes() {

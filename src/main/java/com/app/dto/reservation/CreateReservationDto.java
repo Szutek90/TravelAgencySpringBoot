@@ -1,28 +1,26 @@
 package com.app.dto.reservation;
 
 import com.app.entity.ReservationComponent;
-import com.app.entity.agency.TravelAgency;
-import com.app.entity.agency.TravelAgencyMapper;
-import com.app.entity.person.Person;
-import com.app.entity.reservation.Reservation;
-import com.app.entity.tour.Tour;
+import com.app.entity.agency.TravelAgencyEntity;
+import com.app.entity.person.PersonEntity;
+import com.app.entity.reservation.ReservationEntity;
+import com.app.entity.tour.TourEntity;
 
 import java.util.List;
 
-public record CreateReservationDto(Person customer,
-                                   Tour tour,
-                                   TravelAgency travelAgency,
+public record CreateReservationDto(PersonEntity customer,
+                                   TourEntity tourEntity,
+                                   TravelAgencyEntity travelAgencyEntity,
                                    int quantityOfPeople,
                                    int discount,
                                    List<ReservationComponent> reservationComponents) {
 
-    public Reservation toReservation() {
-        return Reservation.builder()
-                .tourId(tour.getId())
+    public ReservationEntity toReservation() {
+        return ReservationEntity.builder()
+                .tourId(tourEntity.getId())
                 .customerId(customer.getId())
                 .quantityOfPeople(quantityOfPeople)
                 .discount(discount)
-                .agencyId(TravelAgencyMapper.toId.applyAsInt(travelAgency))
                 .build();
     }
 }

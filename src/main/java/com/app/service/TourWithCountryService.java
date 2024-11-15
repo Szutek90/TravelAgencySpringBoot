@@ -1,28 +1,28 @@
 package com.app.service;
 
 import com.app.dto.TourDto;
-import com.app.entity.tour.Tour;
+import com.app.entity.tour.TourEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 public interface TourWithCountryService {
-    Tour getById(int id);
+    TourEntity getById(int id);
 
-    List<Tour> getByCountry(String country);
+    List<TourEntity> getByCountry(String country);
 
-    List<Tour> getToursInPriceRange(BigDecimal from, BigDecimal to);
+    List<TourEntity> getToursInPriceRange(BigDecimal from, BigDecimal to);
 
-    List<Tour> getToursCheaperThan(BigDecimal priceTo);
+    List<TourEntity> getToursCheaperThan(BigDecimal priceTo);
 
-    List<Tour> getToursMoreExpensiveThan(BigDecimal priceFrom);
+    List<TourEntity> getToursMoreExpensiveThan(BigDecimal priceFrom);
 
-    List<Tour> getToursInRange(LocalDate from, LocalDate to);
+    List<TourEntity> getToursInRange(LocalDate from, LocalDate to);
 
-    List<Tour> getToursAfterDate(LocalDate from);
+    List<TourEntity> getToursAfterDate(LocalDate from);
 
-    List<Tour> getToursBeforeDate(LocalDate to);
+    List<TourEntity> getToursBeforeDate(LocalDate to);
 
-    Tour createTour(TourDto tourDto);
+    TourEntity createTour(TourDto tourDto);
 }

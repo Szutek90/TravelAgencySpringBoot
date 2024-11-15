@@ -1,8 +1,8 @@
 package com.app.repository.impl;
 
 import com.app.converter.agencies.FileToAgenciesConverter;
-import com.app.entity.agency.TravelAgency;
-import com.app.entity.agency.TravelAgencyMapper;
+import com.app.entity.agency.TravelAgencyEntity;
+import com.app.entity.agency.TravelAgencyEntityMapper;
 import com.app.repository.TravelAgencyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class TravelAgencyRepositoryImpl implements TravelAgencyRepository {
-    private final List<TravelAgency> travelAgencies = new ArrayList<>();
+    private final List<TravelAgencyEntity> travelAgencies = new ArrayList<>();
     private final ApplicationContext context;
 
     @Value("${agencies.file}")
@@ -37,42 +37,42 @@ public class TravelAgencyRepositoryImpl implements TravelAgencyRepository {
     }
 
     @Override
-    public Optional<TravelAgency> findById(int id) {
+    public Optional<TravelAgencyEntity> findById(int id) {
         return travelAgencies.stream()
-                .filter(t -> TravelAgencyMapper.toId.applyAsInt(t) == id)
+                .filter(t -> TravelAgencyEntityMapper.toId.applyAsInt(t) == id)
                 .findFirst();
     }
 
     @Override
-    public Optional<TravelAgency> findByName(String name) {
+    public Optional<TravelAgencyEntity> findByName(String name) {
         return travelAgencies.stream()
-                .filter(t -> Objects.equals(TravelAgencyMapper.toName.apply(t), name))
+                .filter(t -> Objects.equals(TravelAgencyEntityMapper.toName.apply(t), name))
                 .findFirst();
     }
 
     @Override
-    public List<TravelAgency> findByCity(String city) {
+    public List<TravelAgencyEntity> findByCity(String city) {
         return travelAgencies.stream()
-                .filter(t -> Objects.equals(TravelAgencyMapper.toCity.apply(t), city))
+                .filter(t -> Objects.equals(TravelAgencyEntityMapper.toCity.apply(t), city))
                 .toList();
     }
 
     @Override
-    public List<TravelAgency> getAll() {
+    public List<TravelAgencyEntity> getAll() {
         return travelAgencies;
     }
 
     @Override
-    public int save(TravelAgency travelAgency) {
-        this.travelAgencies.add(travelAgency);
-        return TravelAgencyMapper.toId.applyAsInt(travelAgency);
+    public int save(TravelAgencyEntity travelAgencyEntity) {
+        this.travelAgencies.add(travelAgencyEntity);
+        return TravelAgencyEntityMapper.toId.applyAsInt(travelAgencyEntity);
     }
 
     @Override
-    public List<TravelAgency> saveAll(List<TravelAgency> travelAgencies) {
+    public List<TravelAgencyEntity> saveAll(List<TravelAgencyEntity> travelAgencies) {
         var currentIds = generateIds(getAll());
         for (var agency : travelAgencies) {
-            if (currentIds.contains(TravelAgencyMapper.toId.applyAsInt(agency))) {
+            if (currentIds.contains(TravelAgencyEntityMapper.toId.applyAsInt(agency))) {
                 throw new IllegalArgumentException("Duplicate id: " + agency);
             }
         }
@@ -81,16 +81,16 @@ public class TravelAgencyRepositoryImpl implements TravelAgencyRepository {
     }
 
     @Override
-    public TravelAgency delete(int id) {
+    public TravelAgencyEntity delete(int id) {
         var agencyToDelete = findById(id)
                 .orElseThrow(() -> new RuntimeException("TravelAgency not found"));
         travelAgencies.remove(agencyToDelete);
         return agencyToDelete;
     }
 
-    private List<Integer> generateIds(List<TravelAgency> travelAgencies) {
+    private List<Integer> generateIds(List<TravelAgencyEntity> travelAgencies) {
         return travelAgencies.stream()
-                .map(TravelAgencyMapper.toId::applyAsInt)
+                .map(TravelAgencyEntityMapper.toId::applyAsInt)
                 .toList();
     }
 }

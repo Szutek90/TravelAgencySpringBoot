@@ -1,7 +1,7 @@
 package com.app.repository.impl;
 
 import com.app.converter.tours.FileToToursConverter;
-import com.app.entity.tour.Tour;
+import com.app.entity.tour.TourEntity;
 import com.app.repository.TourRepository;
 import com.app.repository.generic.AbstractCrudRepository;
 import org.jdbi.v3.core.Jdbi;
@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> implements TourRepository {
+public class TourRepositoryImpl extends AbstractCrudRepository<TourEntity, Integer> implements TourRepository {
     private final ApplicationContext context;
 
     @Value("${tours.file}")
@@ -39,7 +39,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
     }
 
     @Override
-    public List<Tour> getByCountryName(String countryName) {
+    public List<TourEntity> getByCountryName(String countryName) {
         var sql = "SELECT * FROM tours t WHERE t.country_id = (SELECT id FROM countries WHERE name = :countryName)";
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)
@@ -49,7 +49,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
     }
 
     @Override
-    public List<Tour> getInPriceRange(BigDecimal from, BigDecimal to) {
+    public List<TourEntity> getInPriceRange(BigDecimal from, BigDecimal to) {
         var sql = "SELECT * from %s where price_per_person >= :from and price_per_person <= :to"
                 .formatted(tableName());
         return jdbi.withHandle(handle -> handle
@@ -61,7 +61,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
     }
 
     @Override
-    public List<Tour> getLessThanGivenPrice(BigDecimal to) {
+    public List<TourEntity> getLessThanGivenPrice(BigDecimal to) {
         var sql = "SELECT * from %s where price_per_person <= :to".formatted(tableName());
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)
@@ -71,7 +71,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
     }
 
     @Override
-    public List<Tour> getMoreExpensiveThanGivenPrice(BigDecimal from) {
+    public List<TourEntity> getMoreExpensiveThanGivenPrice(BigDecimal from) {
         var sql = "SELECT * from %s where price_per_person >= :from".formatted(tableName());
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)
@@ -81,7 +81,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
     }
 
     @Override
-    public List<Tour> getInDateRange(LocalDate from, LocalDate to) {
+    public List<TourEntity> getInDateRange(LocalDate from, LocalDate to) {
         var sql = "SELECT * from %s where start_date >= :from and end_date <= :to".formatted(tableName());
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)
@@ -92,7 +92,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
     }
 
     @Override
-    public List<Tour> getBeforeGivenDate(LocalDate to) {
+    public List<TourEntity> getBeforeGivenDate(LocalDate to) {
         var sql = "SELECT * from %s where end_date <= :to".formatted(tableName());
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)
@@ -102,7 +102,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
     }
 
     @Override
-    public List<Tour> getAfterGivenDate(LocalDate from) {
+    public List<TourEntity> getAfterGivenDate(LocalDate from) {
         var sql = "SELECT * from %s where start_date >= :from".formatted(tableName());
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)
@@ -112,7 +112,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<Tour, Integer> im
     }
 
     @Override
-    public List<Tour> getByAgency(int agencyId) {
+    public List<TourEntity> getByAgency(int agencyId) {
         var sql = "SELECT * from %s where agency_id = :agencyId".formatted(tableName());
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)

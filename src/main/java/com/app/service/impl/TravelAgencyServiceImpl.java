@@ -1,9 +1,8 @@
 package com.app.service.impl;
 
-import com.app.dto.travel_agency.CreateTravelAgencyDto;
+import com.app.dto.TravelAgencyDto;
 import com.app.dto.travel_agency.GetTravelAgencyDto;
-import com.app.entity.agency.TravelAgency;
-import com.app.entity.agency.TravelAgencyMapper;
+import com.app.entity.agency.TravelAgencyEntity;
 import com.app.repository.TravelAgencyRepository;
 import com.app.service.TravelAgencyService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,7 @@ public class TravelAgencyServiceImpl implements TravelAgencyService {
 
     public List<GetTravelAgencyDto> getAllTravelAgency() {
         return travelAgencyRepository.getAll().stream()
-                .map(TravelAgency::toGetTravelAgencyDto)
+                .map(TravelAgencyEntity::toGetTravelAgencyDto)
                 .toList();
     }
 
@@ -42,23 +41,20 @@ public class TravelAgencyServiceImpl implements TravelAgencyService {
     @Override
     public List<GetTravelAgencyDto> getAllTravelAgenciesByCity(String city) {
         return travelAgencyRepository.findByCity(city).stream()
-                .map(TravelAgency::toGetTravelAgencyDto)
+                .map(TravelAgencyEntity::toGetTravelAgencyDto)
                 .toList();
     }
 
     @Override
-    public GetTravelAgencyDto addTravelAgency(CreateTravelAgencyDto travelAgencyDto) {
+    public GetTravelAgencyDto addTravelAgency(TravelAgencyDto travelAgencyDto) {
         if (travelAgencyRepository.findByName(travelAgencyDto.name()).isPresent()) {
             throw new IllegalArgumentException("There is already a Travel Agency with given name");
         }
         var agencyToSave =
-                new TravelAgency(getLastFreeId(), travelAgencyDto.name(), travelAgencyDto.city(),
+                new TravelAgencyEntity(travelAgencyDto.name(), travelAgencyDto.city(),
                         travelAgencyDto.phoneNumber());
         travelAgencyRepository.save(agencyToSave);
         return agencyToSave.toGetTravelAgencyDto();
     }
 
-    private int getLastFreeId() {
-        return TravelAgencyMapper.toId.applyAsInt(travelAgencyRepository.getAll().getLast()) + 1;
-    }
 }
