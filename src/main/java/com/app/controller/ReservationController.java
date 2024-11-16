@@ -3,10 +3,8 @@ package com.app.controller;
 import com.app.controller.dto.ResponseDto;
 import com.app.dto.CountryDto;
 import com.app.dto.TravelAgencyDto;
-import com.app.dto.reservation.CreateReservationDto;
-import com.app.dto.reservation.GetReservationDto;
+import com.app.dto.ReservationDto;
 import com.app.entity.TourWithClosestAvgPriceByAgency;
-import com.app.entity.agency.TravelAgencyEntity;
 import com.app.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +19,12 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     @GetMapping
-    public ResponseDto<List<GetReservationDto>> getAllReservations() {
+    public ResponseDto<List<ReservationDto>> getAllReservations() {
         return new ResponseDto<>(reservationService.getAllReservations());
     }
 
     @PostMapping
-    public void createReservation(@RequestBody CreateReservationDto createReservationDto) {
+    public void createReservation(@RequestBody ReservationDto createReservationDto) {
         reservationService.makeReservation(createReservationDto);
     }
 
@@ -51,7 +49,7 @@ public class ReservationController {
     }
 
     @GetMapping("/summary")
-    public ResponseDto<Map<TravelAgencyEntity, TourWithClosestAvgPriceByAgency>> getSummary() {
+    public ResponseDto<Map<TravelAgencyDto, TourWithClosestAvgPriceByAgency>> getSummary() {
         return new ResponseDto<>(reservationService.getSummaryByTourAvgPrice());
     }
 

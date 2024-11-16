@@ -1,10 +1,10 @@
 package com.app.service.impl;
 
 import com.app.dto.TourDto;
-import com.app.entity.country.CountryEntityMapper;
 import com.app.entity.tour.TourEntity;
 import com.app.repository.CountryRepository;
 import com.app.repository.TourRepository;
+import com.app.repository.TravelAgencyRepository;
 import com.app.service.TourWithCountryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,60 +19,79 @@ import java.util.NoSuchElementException;
 public class TourWithCountryServiceImpl implements TourWithCountryService {
     private final TourRepository tourRepository;
     private final CountryRepository countryRepository;
+    private final TravelAgencyRepository travelAgencyRepository;
 
     @Override
-    public TourEntity getById(int id) {
+    public TourDto getById(int id) {
         return tourRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("There is no Tour with given id"));
+                .orElseThrow(() -> new NoSuchElementException("There is no Tour with given id"))
+                .toTourDto();
     }
 
     @Override
-    public List<TourEntity> getByCountry(String country) {
-        return tourRepository.getByCountryName(country);
+    public List<TourDto> getByCountry(String country) {
+        return tourRepository.getByCountryName(country).stream()
+                .map(TourEntity::toTourDto)
+                .toList();
     }
 
     @Override
-    public List<TourEntity> getToursInPriceRange(BigDecimal from, BigDecimal to) {
-        return tourRepository.getInPriceRange(from, to);
+    public List<TourDto> getToursInPriceRange(BigDecimal from, BigDecimal to) {
+        return tourRepository.getInPriceRange(from, to).stream()
+                .map(TourEntity::toTourDto)
+                .toList();
     }
 
     @Override
-    public List<TourEntity> getToursCheaperThan(BigDecimal priceTo) {
-        return tourRepository.getLessThanGivenPrice(priceTo);
+    public List<TourDto> getToursCheaperThan(BigDecimal priceTo) {
+        return tourRepository.getLessThanGivenPrice(priceTo).stream()
+                .map(TourEntity::toTourDto)
+                .toList();
     }
 
     @Override
-    public List<TourEntity> getToursMoreExpensiveThan(BigDecimal priceFrom) {
-        return tourRepository.getMoreExpensiveThanGivenPrice(priceFrom);
+    public List<TourDto> getToursMoreExpensiveThan(BigDecimal priceFrom) {
+        return tourRepository.getMoreExpensiveThanGivenPrice(priceFrom).stream()
+                .map(TourEntity::toTourDto)
+                .toList();
     }
 
     @Override
-    public List<TourEntity> getToursInRange(LocalDate from, LocalDate to) {
-        return tourRepository.getInDateRange(from, to);
+    public List<TourDto> getToursInRange(LocalDate from, LocalDate to) {
+        return tourRepository.getInDateRange(from, to).stream()
+                .map(TourEntity::toTourDto)
+                .toList();
     }
 
     @Override
-    public List<TourEntity> getToursAfterDate(LocalDate from) {
-        return tourRepository.getAfterGivenDate(from);
+    public List<TourDto> getToursAfterDate(LocalDate from) {
+        return tourRepository.getAfterGivenDate(from).stream()
+                .map(TourEntity::toTourDto)
+                .toList();
     }
 
     @Override
-    public List<TourEntity> getToursBeforeDate(LocalDate to) {
-        return tourRepository.getBeforeGivenDate(to);
+    public List<TourDto> getToursBeforeDate(LocalDate to) {
+        return tourRepository.getBeforeGivenDate(to).stream()
+                .map(TourEntity::toTourDto)
+                .toList();
     }
 
     @Override
-    public TourEntity createTour(TourDto tourDto) {
-        var countryToAdd = countryRepository.findByCountry(tourDto.countryName())
+    public TourDto createTour(TourDto tourDto) {
+        var agency = travelAgencyRepository.findByName(tourDto.agencyName())
+                .orElseThrow(() -> new IllegalArgumentException("There is no Travel Agency with given name"));
+        var country = countryRepository.findByCountry(tourDto.countryName())
                 .orElseThrow(() -> new IllegalArgumentException("There is no country with given name"));
 
         var tourToSave = tourRepository.save(TourEntity.builder()
-                .countryId(CountryEntityMapper.toId.applyAsInt(countryToAdd))
+                .agencyId(agency.getId())
+                .countryId(country.getId())
                 .pricePerPerson(tourDto.pricePerPerson())
                 .startDate(tourDto.startDate())
                 .endDate(tourDto.endDate())
                 .build());
         tourRepository.save(tourToSave);
-        return tourToSave;
+        return tourToSave.toTourDto();
     }
 }

@@ -43,7 +43,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<TourEntity, Integ
 
     @Override
     public List<TourEntity> getByCountryName(String countryName) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         List<TourEntity> tours = null;
         try (var emw = new EntityManagerWrapper(emf)) {
@@ -66,7 +66,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<TourEntity, Integ
 
     @Override
     public List<TourEntity> getInPriceRange(BigDecimal from, BigDecimal to) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         List<TourEntity> tours = null;
         try (var emw = new EntityManagerWrapper(emf)) {
@@ -89,7 +89,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<TourEntity, Integ
 
     @Override
     public List<TourEntity> getLessThanGivenPrice(BigDecimal to) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         List<TourEntity> tours = null;
         try (var emw = new EntityManagerWrapper(emf)) {
@@ -110,7 +110,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<TourEntity, Integ
 
     @Override
     public List<TourEntity> getMoreExpensiveThanGivenPrice(BigDecimal from) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         List<TourEntity> tours = null;
         try (var emw = new EntityManagerWrapper(emf)) {
@@ -131,7 +131,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<TourEntity, Integ
 
     @Override
     public List<TourEntity> getInDateRange(LocalDate from, LocalDate to) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         List<TourEntity> tours = null;
         try (var emw = new EntityManagerWrapper(emf)) {
@@ -154,7 +154,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<TourEntity, Integ
 
     @Override
     public List<TourEntity> getBeforeGivenDate(LocalDate to) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         List<TourEntity> tours = null;
         try (var emw = new EntityManagerWrapper(emf)) {
@@ -175,7 +175,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<TourEntity, Integ
 
     @Override
     public List<TourEntity> getAfterGivenDate(LocalDate from) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         List<TourEntity> tours = null;
         try (var emw = new EntityManagerWrapper(emf)) {
@@ -196,7 +196,7 @@ public class TourRepositoryImpl extends AbstractCrudRepository<TourEntity, Integ
 
     @Override
     public List<TourEntity> getByAgency(int agencyId) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         List<TourEntity> tours = null;
         try (var emw = new EntityManagerWrapper(emf)) {

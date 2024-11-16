@@ -16,7 +16,7 @@ public class TravelAgencyServiceImpl implements TravelAgencyService {
     private final TravelAgencyRepository travelAgencyRepository;
 
     public List<TravelAgencyDto> getAllTravelAgency() {
-        return travelAgencyRepository.getAll().stream()
+        return travelAgencyRepository.findAll().stream()
                 .map(TravelAgencyEntity::toTravelAgencyDto)
                 .toList();
     }
@@ -49,9 +49,11 @@ public class TravelAgencyServiceImpl implements TravelAgencyService {
         if (travelAgencyRepository.findByName(travelAgencyDto.name()).isPresent()) {
             throw new IllegalArgumentException("There is already a Travel Agency with given name");
         }
-        var agencyToSave =
-                new TravelAgencyEntity(travelAgencyDto.name(), travelAgencyDto.city(),
-                        travelAgencyDto.phoneNumber());
+        var agencyToSave = TravelAgencyEntity.builder()
+                .name(travelAgencyDto.name())
+                .city(travelAgencyDto.city())
+                .phoneNumber(travelAgencyDto.phoneNumber())
+                .build();
         travelAgencyRepository.save(agencyToSave);
         return agencyToSave.toTravelAgencyDto();
     }

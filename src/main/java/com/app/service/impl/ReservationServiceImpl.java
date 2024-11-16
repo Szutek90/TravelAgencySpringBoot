@@ -1,15 +1,14 @@
 package com.app.service.impl;
 
-import com.app.dto.reservation.CreateReservationDto;
-import com.app.dto.reservation.GetReservationDto;
+import com.app.dto.CountryDto;
+import com.app.dto.TourDto;
+import com.app.dto.TravelAgencyDto;
+import com.app.dto.ReservationDto;
 import com.app.entity.TourWithClosestAvgPriceByAgency;
 import com.app.entity.agency.TravelAgencyEntity;
-import com.app.entity.agency.TravelAgencyEntityMapper;
 import com.app.entity.country.CountryEntity;
 import com.app.entity.reservation.ReservationEntity;
-import com.app.entity.reservation.ReservationEntityMapper;
 import com.app.entity.tour.TourEntity;
-import com.app.entity.tour.TourEntityMapper;
 import com.app.repository.*;
 import com.app.service.ReservationService;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,31 +27,27 @@ public class ReservationServiceImpl implements ReservationService {
     private final PersonRepository personRepository;
     private final TravelAgencyRepository travelAgencyRepository;
     private final CountryRepository countryRepository;
-    private final ReservationComponentRepository componentRepository;
 
     @Override
-    public void makeReservation(CreateReservationDto createReservationDto) {
-        if (tourRepository.findById(TourEntityMapper.toId.applyAsInt(createReservationDto.tourEntity())).isEmpty()) {
+    public void makeReservation(ReservationDto reservationDto) {
+        if (tourRepository.findById(reservationDto.tourId()).isEmpty()) {
             throw new IllegalStateException("tour not found");
         }
-        if (personRepository
-                .findById(PersonMapper.toId.applyAsInt(createReservationDto.customer())).isEmpty()) {
-            throw new IllegalStateException("person not found");
-        }
+        var travelAgency = travelAgencyRepository.findByName(reservationDto.agencyName())
+                .orElseThrow(() ->
+                        new IllegalArgumentException("There is no Travel Agency with given name"));
+        var customer = personRepository.findByEmail(reservationDto.person().email())
+                .orElseThrow(() -> new IllegalArgumentException("There is no Customer with given email"));
 
-        var reservation = reservationRepository.save(
+        reservationRepository.save(
                 ReservationEntity.builder()
-                        .tourId(createReservationDto.tourEntity().getId())
-                        .customerId(createReservationDto.customer().getId())
-                        .agencyId(TravelAgencyEntityMapper.toId.applyAsInt(createReservationDto.travelAgencyEntity()))
-                        .quantityOfPeople(createReservationDto.quantityOfPeople())
-                        .discount(createReservationDto.discount())
+                        .tourId(reservationDto.tourId())
+                        .agencyId(travelAgency.getId())
+                        .customerId(customer.getId())
+                        .quantityOfPeople(reservationDto.quantityOfPeople())
+                        .discount(reservationDto.discount())
+                        .components(reservationDto.reservationComponents())
                         .build());
-        var reservationId = ReservationEntityMapper.toId.applyAsInt(reservation);
-        var components = createReservationDto.reservationComponents();
-        for (var component : components) {
-            componentRepository.save(reservationId, component);
-        }
     }
 
     @Override
@@ -64,108 +56,98 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<GetReservationDto> getAllReservations() {
+    public List<ReservationDto> getAllReservations() {
         var allReservations = reservationRepository.findAll();
         return allReservations
                 .stream()
-                .map(this::toGetReservationDto)
+                .map(ReservationEntity::toReservationDto)
                 .toList();
     }
 
     @Override
-    public List<TravelAgencyEntity> getAgencyWithMostOrganizedTrips() {
+    public List<TravelAgencyDto> getAgencyWithMostOrganizedTrips() {
         return reservationRepository.findAll().stream()
-                .collect(Collectors.groupingBy(ReservationEntityMapper.toId::applyAsInt,
+                .map(reservation -> travelAgencyRepository.findById(reservation.getAgencyId())
+                        .orElseThrow(() -> new IllegalStateException("Travel Agency not found")))
+                .collect(Collectors.groupingBy(
+                        TravelAgencyEntity::getId, Collectors.counting()))
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .flatMap(travelAgencyRepository::findById)
+                .stream()
+                .map(TravelAgencyEntity::toTravelAgencyDto)
+                .toList();
+    }
+
+    @Override
+    public List<TravelAgencyDto> getAgencyEarnMostMoney() {
+        return reservationRepository.findAll().stream()
+                .collect(Collectors.groupingBy(e -> e.getTourEntity().getPricePerPerson()
+                                .multiply(BigDecimal.valueOf(e.getQuantityOfPeople())),
                         Collectors.mapping(e ->
-                                        travelAgencyRepository.findById(ReservationEntityMapper.toAgencyId.applyAsInt(e))
+                                        travelAgencyRepository.findById(e.getAgencyId())
                                                 .orElseThrow(() ->
                                                         new IllegalStateException("Travel Agency not found")),
                                 Collectors.toList())))
                 .entrySet().stream()
                 .max(Map.Entry.comparingByKey())
                 .map(Map.Entry::getValue)
-                .orElseThrow();
+                .orElseThrow()
+                .stream()
+                .map(TravelAgencyEntity::toTravelAgencyDto)
+                .toList();
     }
 
     @Override
-    public List<TravelAgencyEntity> getAgencyEarnMostMoney() {
-        return reservationRepository.findAll().stream()
-                .collect(Collectors.groupingBy(e -> TourEntityMapper.toPrice
-                                .apply(tourRepository.findById(ReservationEntityMapper.toTourId.applyAsInt(e))
-                                        .orElseThrow())
-                                .multiply(BigDecimal.valueOf(ReservationEntityMapper.toQuantityOfPeople
-                                        .applyAsInt(e))),
-                        Collectors.mapping(e ->
-                                        travelAgencyRepository.findById(ReservationEntityMapper.toAgencyId.applyAsInt(e))
-                                                .orElseThrow(() ->
-                                                        new IllegalStateException("Travel Agency not found")),
-                                Collectors.toList())))
-                .entrySet().stream()
-                .max(Map.Entry.comparingByKey())
-                .map(Map.Entry::getValue)
-                .orElseThrow();
-    }
-
-    @Override
-    public List<CountryEntity> getMostVisitedCountries() {
+    public List<CountryDto> getMostVisitedCountries() {
         var countriesWithChoicesNum = reservationRepository.findAll().stream()
                 .collect(Collectors.groupingBy(e -> countryRepository
-                                .findById(TourEntityMapper.toCountryId.applyAsInt(tourRepository
-                                        .findById(ReservationEntityMapper.toTourId.applyAsInt(e)).orElseThrow())).orElseThrow(),
-                        Collectors.counting()));
+                        .findById((tourRepository.findById(e.getTourId()).orElseThrow()).getCountryId())
+                        .orElseThrow(), Collectors.counting()));
         return countriesWithChoicesNum.entrySet().stream()
                 .collect(Collectors.groupingBy(Map.Entry::getValue,
-                        Collectors.mapping(
-                                Map.Entry::getKey,
-                                Collectors.toList()
+                        Collectors.mapping(Map.Entry::getKey, Collectors.toList()
                         ))).entrySet().stream()
                 .max(Map.Entry.comparingByKey())
                 .map(Map.Entry::getValue)
-                .orElseThrow();
+                .orElseThrow()
+                .stream()
+                .map(CountryEntity::toCountryDto)
+                .toList();
     }
 
     @Override
-    public Map<TravelAgencyEntity, TourWithClosestAvgPriceByAgency> getSummaryByTourAvgPrice() {
+    public Map<TravelAgencyDto, TourWithClosestAvgPriceByAgency> getSummaryByTourAvgPrice() {
         var averagePriceByAgency = tourRepository.findAll().stream()
-                .collect(Collectors.groupingBy(TourEntityMapper.toAgencyId::applyAsInt,
-                        Collectors.mapping(TourEntityMapper.toPrice, Collectors.toList())))
+                .collect(Collectors.groupingBy(TourEntity::getAgencyId,
+                        Collectors.mapping(TourEntity::getPricePerPerson,
+                                Collectors.toList())))
                 .entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
                         e -> e.getValue().stream()
                                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                                 .divide(new BigDecimal(e.getValue().size()), RoundingMode.HALF_UP)));
         return averagePriceByAgency.entrySet().stream()
-                .collect(Collectors.toMap(e -> travelAgencyRepository.findById(e.getKey()).orElseThrow(), e -> {
+                .collect(Collectors.toMap(e -> travelAgencyRepository.findById(e.getKey())
+                        .orElseThrow().toTravelAgencyDto(), e -> {
                     var closest = tourRepository.findAll().stream()
-                            .filter(t -> TourEntityMapper.toAgencyId.applyAsInt(t) == e.getKey())
-                            .min(Comparator.comparing(t -> TourEntityMapper.toPrice.apply(t).subtract(e.getValue()).abs()))
+                            .filter(t -> Objects.equals(t.getAgencyId(), e.getKey()))
+                            .min(Comparator.comparing(t -> t.getPricePerPerson()
+                                    .subtract(e.getValue()).abs()))
                             .orElseThrow();
                     return new TourWithClosestAvgPriceByAgency(e.getValue(), closest);
                 }));
     }
 
     @Override
-    public List<TourEntity> getToursTakingPlaceInGivenCountry(List<String> countryNames) {
-        var tours = new ArrayList<TourEntity>();
+    public List<TourDto> getToursTakingPlaceInGivenCountry(List<String> countryNames) {
+        var tours = new ArrayList<TourDto>();
         for (String countryName : countryNames) {
-            tours.addAll(tourRepository.getByCountryName(countryName));
+            tours.addAll(tourRepository.getByCountryName(countryName).stream()
+                    .map(TourEntity::toTourDto)
+                    .toList());
         }
         return tours;
     }
-
-    @Override
-    public GetReservationDto toGetReservationDto(ReservationEntity reservationEntity) {
-        return new GetReservationDto(
-                tourRepository.findById(ReservationEntityMapper.toTourId.applyAsInt(reservationEntity))
-                        .orElseThrow(() -> new IllegalArgumentException("No tour with given id")),
-                travelAgencyRepository.findById(ReservationEntityMapper.toAgencyId.applyAsInt(reservationEntity))
-                        .orElseThrow(() -> new IllegalArgumentException("No agency with given id")),
-                personRepository.findById(ReservationEntityMapper.toPersonId.applyAsInt(reservationEntity))
-                        .orElseThrow(() -> new IllegalArgumentException("No person with given id")),
-                ReservationEntityMapper.toQuantityOfPeople.applyAsInt(reservationEntity),
-                ReservationEntityMapper.toDiscount.applyAsInt(reservationEntity),
-                componentRepository
-                        .findByReservationId(ReservationEntityMapper.toId.applyAsInt(reservationEntity)));
-    }
-
 }

@@ -25,6 +25,10 @@ public class TravelAgencyData {
     private String phoneNumber;
 
     public TravelAgencyEntity toTravelAgency(){
-        return new TravelAgencyEntity(name, city, phoneNumber, null);
+        return TravelAgencyEntity.builder()
+                .name(name)
+                .city(city)
+                .phoneNumber(phoneNumber)
+                .build();
     }
 }

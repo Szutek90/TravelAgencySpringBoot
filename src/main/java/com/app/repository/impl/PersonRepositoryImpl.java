@@ -21,7 +21,7 @@ public class PersonRepositoryImpl extends AbstractCrudRepository<PersonEntity, I
 
     @Override
     public List<PersonEntity> findBySurname(String surname) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         List<PersonEntity> personEntities = null;
         try (var emw = new EntityManagerWrapper(emf)) {
@@ -42,7 +42,7 @@ public class PersonRepositoryImpl extends AbstractCrudRepository<PersonEntity, I
 
     @Override
     public Optional<PersonEntity> findByNameAndSurname(String name, String surname) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         Optional<PersonEntity> person = Optional.empty();
         try (var emw = new EntityManagerWrapper(emf)) {
@@ -65,7 +65,7 @@ public class PersonRepositoryImpl extends AbstractCrudRepository<PersonEntity, I
 
     @Override
     public Optional<PersonEntity> findByEmail(String email) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         Optional<PersonEntity> person = Optional.empty();
         try (var emw = new EntityManagerWrapper(emf)) {

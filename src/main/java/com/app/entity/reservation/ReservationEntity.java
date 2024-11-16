@@ -1,5 +1,6 @@
 package com.app.entity.reservation;
 
+import com.app.dto.ReservationDto;
 import com.app.entity.BaseEntity;
 import com.app.entity.ReservationComponent;
 import com.app.entity.person.PersonEntity;
@@ -31,7 +32,7 @@ public class ReservationEntity extends BaseEntity {
                     referencedColumnName = "id"))
     @Column(name = "component")
     @Enumerated(EnumType.STRING)
-    private List<ReservationComponent> components;
+    private List<ReservationComponent> components = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "tour_id", unique = true)
@@ -43,5 +44,10 @@ public class ReservationEntity extends BaseEntity {
             inverseJoinColumns = {@JoinColumn(name = "person_id")})
     @Builder.Default
     private List<PersonEntity> personEntities = new ArrayList<>();
+
+    public ReservationDto toReservationDto() {
+        return new ReservationDto(tourEntity.getId(), tourEntity.getTravelAgencyEntity().getName(),
+                personEntities.get(customerId).toPersonDto(), quantityOfPeople, discount, components);
+    }
 
 }

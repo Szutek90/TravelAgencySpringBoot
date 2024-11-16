@@ -21,7 +21,7 @@ public class ReservationComponentRepositoryImpl extends AbstractCrudRepository<R
 
     @Override
     public List<ReservationComponent> findByReservationId(int id) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         List<ReservationComponent> components = null;
         try (var emw = new EntityManagerWrapper(emf)) {
@@ -43,7 +43,7 @@ public class ReservationComponentRepositoryImpl extends AbstractCrudRepository<R
     }
 
     public ReservationComponent save(int id, ReservationComponent item) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         try (var emw = new EntityManagerWrapper(emf)) {
             em = emw.getEntityManager();
@@ -63,7 +63,7 @@ public class ReservationComponentRepositoryImpl extends AbstractCrudRepository<R
 
     @Override
     public List<ReservationComponent> findAll() {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         List<ReservationComponent> components = null;
         try (var emw = new EntityManagerWrapper(emf)) {

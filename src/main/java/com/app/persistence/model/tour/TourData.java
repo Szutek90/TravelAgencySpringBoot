@@ -27,7 +27,12 @@ public class TourData {
     private LocalDate endDate;
 
     public TourEntity toTour() {
-        return new TourEntity(agencyId, countryId, pricePerPerson, startDate, endDate,
-                null, null, null);
+        return TourEntity.builder()
+                .agencyId(agencyId)
+                .countryId(countryId)
+                .pricePerPerson(pricePerPerson)
+                .startDate(startDate)
+                .endDate(endDate)
+                .build();
     }
 }

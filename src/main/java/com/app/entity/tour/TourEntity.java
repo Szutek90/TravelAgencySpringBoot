@@ -1,5 +1,6 @@
 package com.app.entity.tour;
 
+import com.app.dto.TourDto;
 import com.app.entity.BaseEntity;
 import com.app.entity.agency.TravelAgencyEntity;
 import com.app.entity.country.CountryEntity;
@@ -35,4 +36,8 @@ public class TourEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "travel_agency_id")
     private TravelAgencyEntity travelAgencyEntity;
+
+    public TourDto toTourDto() {
+        return new TourDto(travelAgencyEntity.getName(), countryEntity.getName(), pricePerPerson, startDate, endDate);
+    }
 }

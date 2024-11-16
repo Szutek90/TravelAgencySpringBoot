@@ -42,7 +42,7 @@ public class TravelAgencyRepositoryImpl extends AbstractCrudRepository<TravelAge
 
     @Override
     public Optional<TravelAgencyEntity> findById(int id) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         Optional<TravelAgencyEntity> travelAgency = Optional.empty();
         try (var emw = new EntityManagerWrapper(emf)) {
@@ -61,7 +61,7 @@ public class TravelAgencyRepositoryImpl extends AbstractCrudRepository<TravelAge
 
     @Override
     public Optional<TravelAgencyEntity> findByName(String name) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         Optional<TravelAgencyEntity> travelAgency = Optional.empty();
         try (var emw = new EntityManagerWrapper(emf)) {
@@ -83,7 +83,7 @@ public class TravelAgencyRepositoryImpl extends AbstractCrudRepository<TravelAge
 
     @Override
     public List<TravelAgencyEntity> findByCity(String city) {
-        EntityManager em = null;
+        EntityManager em;
         EntityTransaction tx = null;
         List<TravelAgencyEntity> travelAgency = null;
         try (var emw = new EntityManagerWrapper(emf)) {

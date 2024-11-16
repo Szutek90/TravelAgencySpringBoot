@@ -1,14 +1,13 @@
 package com.app.service;
 
 import com.app.dto.TourDto;
-import com.app.entity.tour.TourEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 public interface TourWithCountryService {
-    TourEntity getById(int id);
+    TourDto getById(int id);
 
     List<TourDto> getByCountry(String country);
 
