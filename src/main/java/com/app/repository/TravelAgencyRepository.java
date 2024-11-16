@@ -11,12 +11,4 @@ public interface TravelAgencyRepository {
     Optional<TravelAgencyEntity> findByName(String name);
 
     List<TravelAgencyEntity> findByCity(String city);
-
-    List<TravelAgencyEntity> getAll();
-
-    int save(TravelAgencyEntity travelAgencyEntity);
-
-    List<TravelAgencyEntity> saveAll(List<TravelAgencyEntity> travelAgencies);
-
-    TravelAgencyEntity delete(int id);
 }

@@ -4,12 +4,15 @@ import com.app.converter.tours.FileToToursConverter;
 import com.app.entity.tour.TourEntity;
 import com.app.repository.TourRepository;
 import com.app.repository.generic.AbstractCrudRepository;
-import org.jdbi.v3.core.Jdbi;
+import com.app.repository.generic.EntityManagerWrapper;
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -24,8 +27,8 @@ public class TourRepositoryImpl extends AbstractCrudRepository<TourEntity, Integ
     @Value("${tours.format}")
     String format;
 
-    public TourRepositoryImpl(Jdbi jdbi, ApplicationContext context) {
-        super(jdbi);
+    public TourRepositoryImpl(EntityManagerFactory emf, ApplicationContext context) {
+        super(emf);
         this.context = context;
     }
 
@@ -40,84 +43,175 @@ public class TourRepositoryImpl extends AbstractCrudRepository<TourEntity, Integ
 
     @Override
     public List<TourEntity> getByCountryName(String countryName) {
-        var sql = "SELECT * FROM tours t WHERE t.country_id = (SELECT id FROM countries WHERE name = :countryName)";
-        return jdbi.withHandle(handle -> handle
-                .createQuery(sql)
-                .bind("countryName", countryName)
-                .mapToBean(entityType)
-                .list());
+        EntityManager em = null;
+        EntityTransaction tx = null;
+        List<TourEntity> tours = null;
+        try (var emw = new EntityManagerWrapper(emf)) {
+            em = emw.getEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
+            tours = em.createQuery("select t from TourEntity t where t.countryId = (select c.id from CountryEntity c" +
+                            " where c.name = :countryName)", TourEntity.class)
+                    .setParameter("countryName", countryName)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+
+        return tours;
     }
 
     @Override
     public List<TourEntity> getInPriceRange(BigDecimal from, BigDecimal to) {
-        var sql = "SELECT * from %s where price_per_person >= :from and price_per_person <= :to"
-                .formatted(tableName());
-        return jdbi.withHandle(handle -> handle
-                .createQuery(sql)
-                .bind("from", from)
-                .bind("to", to)
-                .mapToBean(entityType)
-                .list());
+        EntityManager em = null;
+        EntityTransaction tx = null;
+        List<TourEntity> tours = null;
+        try (var emw = new EntityManagerWrapper(emf)) {
+            em = emw.getEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
+            tours = em.createQuery("select t from TourEntity t where t.pricePerPerson >= :from " +
+                            "and t.pricePerPerson<= :to", TourEntity.class)
+                    .setParameter("from", from)
+                    .setParameter("to", to)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return tours;
     }
 
     @Override
     public List<TourEntity> getLessThanGivenPrice(BigDecimal to) {
-        var sql = "SELECT * from %s where price_per_person <= :to".formatted(tableName());
-        return jdbi.withHandle(handle -> handle
-                .createQuery(sql)
-                .bind("to", to)
-                .mapToBean(entityType)
-                .list());
+        EntityManager em = null;
+        EntityTransaction tx = null;
+        List<TourEntity> tours = null;
+        try (var emw = new EntityManagerWrapper(emf)) {
+            em = emw.getEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
+            tours = em.createQuery("select t from TourEntity t where t.pricePerPerson <= :to", TourEntity.class)
+                    .setParameter("to", to)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return tours;
     }
 
     @Override
     public List<TourEntity> getMoreExpensiveThanGivenPrice(BigDecimal from) {
-        var sql = "SELECT * from %s where price_per_person >= :from".formatted(tableName());
-        return jdbi.withHandle(handle -> handle
-                .createQuery(sql)
-                .bind("from", from)
-                .mapToBean(entityType)
-                .list());
+        EntityManager em = null;
+        EntityTransaction tx = null;
+        List<TourEntity> tours = null;
+        try (var emw = new EntityManagerWrapper(emf)) {
+            em = emw.getEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
+            tours = em.createQuery("select t from TourEntity t where t.pricePerPerson >= :from", TourEntity.class)
+                    .setParameter("from", from)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return tours;
     }
 
     @Override
     public List<TourEntity> getInDateRange(LocalDate from, LocalDate to) {
-        var sql = "SELECT * from %s where start_date >= :from and end_date <= :to".formatted(tableName());
-        return jdbi.withHandle(handle -> handle
-                .createQuery(sql)
-                .bind("from", from)
-                .bind("to", to)
-                .mapToBean(entityType)
-                .list());
+        EntityManager em = null;
+        EntityTransaction tx = null;
+        List<TourEntity> tours = null;
+        try (var emw = new EntityManagerWrapper(emf)) {
+            em = emw.getEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
+            tours = em.createQuery("select t from TourEntity t where t.startDate >= :from " +
+                            "and t.endDate <= :to", TourEntity.class)
+                    .setParameter("from", from)
+                    .setParameter("to", to)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return tours;
     }
 
     @Override
     public List<TourEntity> getBeforeGivenDate(LocalDate to) {
-        var sql = "SELECT * from %s where end_date <= :to".formatted(tableName());
-        return jdbi.withHandle(handle -> handle
-                .createQuery(sql)
-                .bind("to", to)
-                .mapToBean(entityType)
-                .list());
+        EntityManager em = null;
+        EntityTransaction tx = null;
+        List<TourEntity> tours = null;
+        try (var emw = new EntityManagerWrapper(emf)) {
+            em = emw.getEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
+            tours = em.createQuery("select t from TourEntity t where t.endDate <= :to", TourEntity.class)
+                    .setParameter("to", to)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return tours;
     }
 
     @Override
     public List<TourEntity> getAfterGivenDate(LocalDate from) {
-        var sql = "SELECT * from %s where start_date >= :from".formatted(tableName());
-        return jdbi.withHandle(handle -> handle
-                .createQuery(sql)
-                .bind("from", from)
-                .mapToBean(entityType)
-                .list());
+        EntityManager em = null;
+        EntityTransaction tx = null;
+        List<TourEntity> tours = null;
+        try (var emw = new EntityManagerWrapper(emf)) {
+            em = emw.getEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
+            tours = em.createQuery("select t from TourEntity t where t.startDate >= :from", TourEntity.class)
+                    .setParameter("from", from)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return tours;
     }
 
     @Override
     public List<TourEntity> getByAgency(int agencyId) {
-        var sql = "SELECT * from %s where agency_id = :agencyId".formatted(tableName());
-        return jdbi.withHandle(handle -> handle
-                .createQuery(sql)
-                .bind("agencyId", agencyId)
-                .mapToBean(entityType)
-                .list());
+        EntityManager em = null;
+        EntityTransaction tx = null;
+        List<TourEntity> tours = null;
+        try (var emw = new EntityManagerWrapper(emf)) {
+            em = emw.getEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
+            tours = em.createQuery("select t from TourEntity t where t.agencyId = :agencyId", TourEntity.class)
+                    .setParameter("agencyId", agencyId)
+                    .getResultList();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return tours;
     }
 }

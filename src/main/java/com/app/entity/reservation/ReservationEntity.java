@@ -31,7 +31,7 @@ public class ReservationEntity extends BaseEntity {
                     referencedColumnName = "id"))
     @Column(name = "component")
     @Enumerated(EnumType.STRING)
-    List<ReservationComponent> components;
+    private List<ReservationComponent> components;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "tour_id", unique = true)

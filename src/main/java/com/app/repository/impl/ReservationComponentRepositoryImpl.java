@@ -28,40 +28,57 @@ public class ReservationComponentRepositoryImpl extends AbstractCrudRepository<R
             em = emw.getEntityManager();
             tx = em.getTransaction();
             tx.begin();
-            var reservation = em.createQuery("select r from ReservationEntity r where r.id = :id", ReservationEntity.class)
-                    .getSingleResult();
+            components = em.createQuery("select r from ReservationEntity r where r.id = :id",
+                            ReservationEntity.class)
+                    .setParameter("id", id)
+                    .getSingleResult()
+                    .getComponents();
             tx.commit();
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
             }
         }
-
-        var sql = "SELECT * FROM %s WHERE reservation_id = :reservation_id".formatted(tableName());
-        return jdbi.withHandle(handle -> handle
-                .createQuery(sql)
-                .bind("reservation_id", id)
-                .map((rs, ctx) -> ReservationComponent.valueOf(rs.getString("component")))
-                .list());
+        return components;
     }
 
     public ReservationComponent save(int id, ReservationComponent item) {
-        var sql = "insert into %s ( reservation_id, component) values ( :reservation_id, :component )"
-                .formatted(tableName());
-        jdbi.withHandle(handle -> handle
-                .createUpdate(sql)
-                .bind("reservation_id", id)
-                .bind("component", item)
-                .execute());
+        EntityManager em = null;
+        EntityTransaction tx = null;
+        try (var emw = new EntityManagerWrapper(emf)) {
+            em = emw.getEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
+            // TODO 8 persist czy merge aby zaktualizować encję?
+            var reservation = em.find(ReservationEntity.class, id);
+            em.persist(reservation.getComponents().add(item));
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
         return item;
     }
 
     @Override
     public List<ReservationComponent> findAll() {
-        var sql = " select * from reservation_components order by reservation_id desc ";
-        return jdbi.withHandle(handle -> handle
-                .createQuery(sql)
-                .map((rs, ctx) -> ReservationComponent.valueOf(rs.getString("component")))
-                .list());
+        EntityManager em = null;
+        EntityTransaction tx = null;
+        List<ReservationComponent> components = null;
+        try (var emw = new EntityManagerWrapper(emf)) {
+            em = emw.getEntityManager();
+            tx = em.getTransaction();
+            tx.begin();
+            components = em.createQuery("select r from ReservationEntity r", ReservationEntity.class)
+                    .getResultList().stream()
+                    .flatMap(r->r.getComponents().stream())
+                    .toList();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return components;
     }
 }
