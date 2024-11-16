@@ -19,7 +19,7 @@ import lombok.*;
 public class CountryEntity extends BaseEntity {
     protected String name;
 
-    public CountryDto toGetCountryDto() {
+    public CountryDto toCountryDto() {
         return new CountryDto(name);
     }
 

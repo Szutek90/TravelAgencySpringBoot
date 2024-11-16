@@ -1,17 +1,16 @@
 package com.app.service;
 
 import com.app.dto.TravelAgencyDto;
-import com.app.dto.travel_agency.GetTravelAgencyDto;
 
 import java.util.List;
 
 public interface TravelAgencyService {
-    List<GetTravelAgencyDto> getAllTravelAgency();
-    GetTravelAgencyDto getTravelAgencyById(int id);
+    List<TravelAgencyDto> getAllTravelAgency();
+    TravelAgencyDto getTravelAgencyById(int id);
 
-    GetTravelAgencyDto getTravelAgencyByName(String name);
+    TravelAgencyDto getTravelAgencyByName(String name);
 
-    List<GetTravelAgencyDto> getAllTravelAgenciesByCity(String city);
+    List<TravelAgencyDto> getAllTravelAgenciesByCity(String city);
 
-    GetTravelAgencyDto addTravelAgency(TravelAgencyDto travelAgencyDto);
+    TravelAgencyDto addTravelAgency(TravelAgencyDto travelAgencyDto);
 }

@@ -26,7 +26,8 @@ public class TourData {
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate endDate;
 
-    public TourEntity toTour(){
-        return new TourEntity(agencyId, countryId, pricePerPerson, startDate, endDate);
+    public TourEntity toTour() {
+        return new TourEntity(agencyId, countryId, pricePerPerson, startDate, endDate,
+                null, null, null);
     }
 }

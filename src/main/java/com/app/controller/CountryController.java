@@ -1,7 +1,6 @@
 package com.app.controller;
 
 import com.app.controller.dto.ResponseDto;
-import com.app.dto.country.CreateCountryDto;
 import com.app.dto.CountryDto;
 import com.app.service.CountryService;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +15,12 @@ public class CountryController {
     private final CountryService countryService;
 
     @GetMapping
-    public List<ResponseDto<CountryDto>> getAllCountries() {
-        return countryService.getAllCountries().stream()
-                .map(ResponseDto::new)
-                .toList();
+    public ResponseDto<List<CountryDto>> getAllCountries() {
+        return new ResponseDto<>(countryService.getAllCountries());
     }
 
     @PostMapping
-    public ResponseDto<CountryDto> createCountry(@RequestBody CreateCountryDto createCountryDto) {
+    public ResponseDto<CountryDto> createCountry(@RequestBody CountryDto createCountryDto) {
         return new ResponseDto<>(countryService.addCountry(createCountryDto));
     }
 }

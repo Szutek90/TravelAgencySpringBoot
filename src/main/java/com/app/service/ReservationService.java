@@ -1,9 +1,9 @@
 package com.app.service;
 
 import com.app.dto.CountryDto;
+import com.app.dto.TravelAgencyDto;
 import com.app.dto.reservation.CreateReservationDto;
 import com.app.dto.reservation.GetReservationDto;
-import com.app.dto.travel_agency.GetTravelAgencyDto;
 import com.app.entity.TourWithClosestAvgPriceByAgency;
 import com.app.entity.agency.TravelAgencyEntity;
 import com.app.entity.reservation.ReservationEntity;
@@ -18,9 +18,9 @@ public interface ReservationService {
     void deleteReservation(int id);
     List<GetReservationDto> getAllReservations();
 
-    List<GetTravelAgencyDto> getAgencyWithMostOrganizedTrips();
+    List<TravelAgencyDto> getAgencyWithMostOrganizedTrips();
 
-    List<GetTravelAgencyDto> getAgencyEarnMostMoney();
+    List<TravelAgencyDto> getAgencyEarnMostMoney();
 
     List<CountryDto> getMostVisitedCountries();
 

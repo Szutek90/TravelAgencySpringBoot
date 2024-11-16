@@ -22,13 +22,13 @@ public class CountryServiceImpl implements CountryService {
         var addedCountry = countryRepository.save(CountryEntity.builder()
                 .name(countryDto.name())
                 .build());
-        return addedCountry.toGetCountryDto();
+        return addedCountry.toCountryDto();
     }
 
     public List<CountryDto> getAllCountries() {
         return countryRepository.findAll()
                 .stream()
-                .map(CountryEntity::toGetCountryDto)
+                .map(CountryEntity::toCountryDto)
                 .toList();
     }
 }

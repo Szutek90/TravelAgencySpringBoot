@@ -21,6 +21,6 @@ public class CountryData {
     private String name;
 
     public CountryEntity toCountry() {
-        return new CountryEntity(name);
+        return new CountryEntity(name,null);
     }
 }

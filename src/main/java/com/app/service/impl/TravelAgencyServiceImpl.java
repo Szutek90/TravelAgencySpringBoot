@@ -1,7 +1,6 @@
 package com.app.service.impl;
 
 import com.app.dto.TravelAgencyDto;
-import com.app.dto.travel_agency.GetTravelAgencyDto;
 import com.app.entity.agency.TravelAgencyEntity;
 import com.app.repository.TravelAgencyRepository;
 import com.app.service.TravelAgencyService;
@@ -16,37 +15,37 @@ import java.util.NoSuchElementException;
 public class TravelAgencyServiceImpl implements TravelAgencyService {
     private final TravelAgencyRepository travelAgencyRepository;
 
-    public List<GetTravelAgencyDto> getAllTravelAgency() {
+    public List<TravelAgencyDto> getAllTravelAgency() {
         return travelAgencyRepository.getAll().stream()
-                .map(TravelAgencyEntity::toGetTravelAgencyDto)
+                .map(TravelAgencyEntity::toTravelAgencyDto)
                 .toList();
     }
 
     @Override
-    public GetTravelAgencyDto getTravelAgencyById(int id) {
+    public TravelAgencyDto getTravelAgencyById(int id) {
         return travelAgencyRepository.findById(id)
                 .orElseThrow(() ->
                         new NoSuchElementException("There is no Travel Agency with given id"))
-                .toGetTravelAgencyDto();
+                .toTravelAgencyDto();
     }
 
     @Override
-    public GetTravelAgencyDto getTravelAgencyByName(String name) {
+    public TravelAgencyDto getTravelAgencyByName(String name) {
         return travelAgencyRepository.findByName(name)
                 .orElseThrow(() ->
                         new NoSuchElementException("There is no Travel Agency with given id"))
-                .toGetTravelAgencyDto();
+                .toTravelAgencyDto();
     }
 
     @Override
-    public List<GetTravelAgencyDto> getAllTravelAgenciesByCity(String city) {
+    public List<TravelAgencyDto> getAllTravelAgenciesByCity(String city) {
         return travelAgencyRepository.findByCity(city).stream()
-                .map(TravelAgencyEntity::toGetTravelAgencyDto)
+                .map(TravelAgencyEntity::toTravelAgencyDto)
                 .toList();
     }
 
     @Override
-    public GetTravelAgencyDto addTravelAgency(TravelAgencyDto travelAgencyDto) {
+    public TravelAgencyDto addTravelAgency(TravelAgencyDto travelAgencyDto) {
         if (travelAgencyRepository.findByName(travelAgencyDto.name()).isPresent()) {
             throw new IllegalArgumentException("There is already a Travel Agency with given name");
         }
@@ -54,7 +53,7 @@ public class TravelAgencyServiceImpl implements TravelAgencyService {
                 new TravelAgencyEntity(travelAgencyDto.name(), travelAgencyDto.city(),
                         travelAgencyDto.phoneNumber());
         travelAgencyRepository.save(agencyToSave);
-        return agencyToSave.toGetTravelAgencyDto();
+        return agencyToSave.toTravelAgencyDto();
     }
 
 }

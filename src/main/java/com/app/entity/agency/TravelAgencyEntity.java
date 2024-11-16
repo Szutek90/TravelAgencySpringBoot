@@ -25,7 +25,7 @@ public class TravelAgencyEntity extends BaseEntity {
     protected String city;
     protected String phoneNumber;
 
-    public TravelAgencyDto toGetTravelAgencyDto() {
+    public TravelAgencyDto toTravelAgencyDto() {
         return new TravelAgencyDto(name, city, phoneNumber);
     }
 

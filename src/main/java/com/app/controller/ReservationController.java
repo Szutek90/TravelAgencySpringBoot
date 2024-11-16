@@ -2,16 +2,17 @@ package com.app.controller;
 
 import com.app.controller.dto.ResponseDto;
 import com.app.dto.CountryDto;
+import com.app.dto.TravelAgencyDto;
 import com.app.dto.reservation.CreateReservationDto;
 import com.app.dto.reservation.GetReservationDto;
+import com.app.entity.TourWithClosestAvgPriceByAgency;
+import com.app.entity.agency.TravelAgencyEntity;
 import com.app.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import spark.ResponseTransformer;
 
 import java.util.List;
-
-import static spark.Spark.*;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/reservation")
@@ -20,10 +21,8 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     @GetMapping
-    public List<ResponseDto<GetReservationDto>> getAllReservations() {
-        return reservationService.getAllReservations().stream()
-                .map(ResponseDto::new)
-                .toList();
+    public ResponseDto<List<GetReservationDto>> getAllReservations() {
+        return new ResponseDto<>(reservationService.getAllReservations());
     }
 
     @PostMapping
@@ -37,34 +36,24 @@ public class ReservationController {
     }
 
     @GetMapping("/most/trips")
-    public List<ResponseDto<CountryDto>> getMostVisitedCountries() {
-        return reservationService.getMostVisitedCountries().stream()
-                .map(ResponseDto::new)
-                .toList();
+    public ResponseDto<List<CountryDto>> getMostVisitedCountries() {
+        return new ResponseDto<>(reservationService.getMostVisitedCountries());
     }
 
     @GetMapping("/most/trips")
-
-
-    public void routes() {
-        path("/reservation", () -> {
-            path("/most", () -> {
-                get("/trips", (request, response) -> {
-                            response.header("Content-Type", "application/json;charset=utf-8");
-                            return new ResponseDto<>(reservationService.getAgencyWithMostOrganizedTrips());
-                        },
-                        responseTransformer);
-                get("/money", (request, response) -> {
-                            response.header("Content-Type", "application/json;charset=utf-8");
-                            return new ResponseDto<>(reservationService.getAgencyEarnMostMoney());
-                        },
-                        responseTransformer);
-            });
-            path("/summary", () -> get("", (request, response) -> {
-                        response.header("Content-Type", "application/json;charset=utf-8");
-                        return new ResponseDto<>(reservationService.getSummaryByTourAvgPrice());
-                    },
-                    responseTransformer));
-        });
+    public ResponseDto<List<TravelAgencyDto>> getMostOrganizedTrips() {
+        return new ResponseDto<>(reservationService.getAgencyWithMostOrganizedTrips());
     }
+
+    @GetMapping("most/money")
+    public ResponseDto<List<TravelAgencyDto>> getAgenciesEarnMostMoney() {
+        return new ResponseDto<>(reservationService.getAgencyEarnMostMoney());
+    }
+
+    @GetMapping("/summary")
+    public ResponseDto<Map<TravelAgencyEntity, TourWithClosestAvgPriceByAgency>> getSummary() {
+        return new ResponseDto<>(reservationService.getSummaryByTourAvgPrice());
+    }
+
 }
+

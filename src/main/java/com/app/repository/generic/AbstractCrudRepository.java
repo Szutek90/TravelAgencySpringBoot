@@ -75,11 +75,11 @@ public abstract class AbstractCrudRepository<T, ID> implements CrudRepository<T,
                 tx.rollback();
             }
         }
-        var sql = "update %s set %s where id = :id".formatted(tableName(), columnNamesAndValues(item));
-              if (updatedRows == 0) {
-            throw new IllegalStateException("Row not updated");
-        }
-        return findById(id).orElseThrow();
+//        var sql = "update %s set %s where id = :id".formatted(tableName(), columnNamesAndValues(item));
+//              if (updatedRows == 0) {
+//            throw new IllegalStateException("Row not updated");
+//        }
+//        return findById(id).orElseThrow();
     }
 
     @Override

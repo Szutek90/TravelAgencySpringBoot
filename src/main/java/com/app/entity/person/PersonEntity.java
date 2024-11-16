@@ -30,7 +30,7 @@ public class PersonEntity extends BaseEntity {
         email = personDto.email();
     }
 
-    public PersonDto toGetPersonDto() {
+    public PersonDto toPersonDto() {
         return new PersonDto(name, surname, email);
     }
 

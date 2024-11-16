@@ -6,7 +6,6 @@ import com.app.entity.TourWithClosestAvgPriceByAgency;
 import com.app.entity.agency.TravelAgencyEntity;
 import com.app.entity.agency.TravelAgencyEntityMapper;
 import com.app.entity.country.CountryEntity;
-import com.app.entity.person.PersonMapper;
 import com.app.entity.reservation.ReservationEntity;
 import com.app.entity.reservation.ReservationEntityMapper;
 import com.app.entity.tour.TourEntity;

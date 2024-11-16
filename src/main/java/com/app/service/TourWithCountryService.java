@@ -10,19 +10,19 @@ import java.util.List;
 public interface TourWithCountryService {
     TourEntity getById(int id);
 
-    List<TourEntity> getByCountry(String country);
+    List<TourDto> getByCountry(String country);
 
-    List<TourEntity> getToursInPriceRange(BigDecimal from, BigDecimal to);
+    List<TourDto> getToursInPriceRange(BigDecimal from, BigDecimal to);
 
-    List<TourEntity> getToursCheaperThan(BigDecimal priceTo);
+    List<TourDto> getToursCheaperThan(BigDecimal priceTo);
 
-    List<TourEntity> getToursMoreExpensiveThan(BigDecimal priceFrom);
+    List<TourDto> getToursMoreExpensiveThan(BigDecimal priceFrom);
 
-    List<TourEntity> getToursInRange(LocalDate from, LocalDate to);
+    List<TourDto> getToursInRange(LocalDate from, LocalDate to);
 
-    List<TourEntity> getToursAfterDate(LocalDate from);
+    List<TourDto> getToursAfterDate(LocalDate from);
 
-    List<TourEntity> getToursBeforeDate(LocalDate to);
+    List<TourDto> getToursBeforeDate(LocalDate to);
 
-    TourEntity createTour(TourDto tourDto);
+    TourDto createTour(TourDto tourDto);
 }
