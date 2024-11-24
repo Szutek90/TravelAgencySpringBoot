@@ -1,10 +1,7 @@
 package com.app.entity;
 
 import com.app.dto.TravelAgencyDto;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -28,6 +25,6 @@ public class TravelAgencyEntity extends BaseEntity {
         return new TravelAgencyDto(name, city, phoneNumber);
     }
 
-    @OneToMany(mappedBy = "travelAgencyEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "travelAgencyEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<TourEntity> tourEntities = new ArrayList<>();
 }

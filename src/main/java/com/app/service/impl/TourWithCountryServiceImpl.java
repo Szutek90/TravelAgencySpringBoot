@@ -2,7 +2,9 @@ package com.app.service.impl;
 
 import com.app.converter.tours.FileToToursConverter;
 import com.app.dto.TourDto;
+import com.app.entity.CountryEntity;
 import com.app.entity.TourEntity;
+import com.app.entity.TravelAgencyEntity;
 import com.app.repository.CountryRepository;
 import com.app.repository.TourRepository;
 import com.app.repository.TravelAgencyRepository;
@@ -12,12 +14,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class TourWithCountryServiceImpl implements TourWithCountryService {
@@ -36,8 +40,45 @@ public class TourWithCountryServiceImpl implements TourWithCountryService {
     public void init() {
         var converter = context.getBean("%sFileToToursConverterImpl".formatted(format),
                 FileToToursConverter.class);
+        var readedTours = converter.convert(filename);
         if (tourRepository.count() == 0) {
-            tourRepository.saveAll(converter.convert(filename));
+            for (var tour : readedTours) {
+                CountryEntity countryEntity = null;
+                TravelAgencyEntity travelAgencyEntity = null;
+                var travelAgencyName = tour.getTravelAgencyEntity().getName();
+                var travelAgencyCity = tour.getTravelAgencyEntity().getCity();
+                var countryName = tour.getCountryEntity().getName();
+                if (countryRepository.count() == 0 || countryRepository.getCountryEntityByName(countryName).isEmpty()) {
+                    countryEntity = countryRepository.save(CountryEntity
+                            .builder()
+                            .name(countryName)
+                            .build());
+                } else {
+                    countryEntity = countryRepository.getCountryEntityByName(countryName).orElseThrow();
+                }
+                if (travelAgencyRepository.count() == 0 || travelAgencyRepository
+                        .getTravelAgencyEntityByNameAndCity(travelAgencyName, travelAgencyCity).isEmpty()) {
+                    travelAgencyEntity = travelAgencyRepository.save(TravelAgencyEntity
+                            .builder()
+                            .name(travelAgencyName)
+                            .city(travelAgencyCity)
+                            .phoneNumber(tour.getTravelAgencyEntity().getPhoneNumber())
+                            .build());
+                } else {
+                    travelAgencyEntity = travelAgencyRepository
+                            .getTravelAgencyEntityByNameAndCity(travelAgencyName, travelAgencyCity).orElseThrow();
+                }
+                var tourEn = TourEntity
+                        .builder()
+                        .id(0)
+                        .pricePerPerson(tour.getPricePerPerson())
+                        .startDate(tour.getStartDate())
+                        .endDate(tour.getEndDate())
+                        .countryEntity(countryEntity)
+                        .travelAgencyEntity(travelAgencyEntity)
+                        .build();
+                tourRepository.save(tourEn);
+            }
         }
     }
 
@@ -105,7 +146,8 @@ public class TourWithCountryServiceImpl implements TourWithCountryService {
                 .orElseThrow(() -> new IllegalArgumentException("There is no country with given name"));
 
         var tourToSave = tourRepository.save(TourEntity.builder()
-                .agencyId(agency.getId())
+                .travelAgencyEntity(agency)
+                .countryEntity(country)
                 .pricePerPerson(tourDto.pricePerPerson())
                 .startDate(tourDto.startDate())
                 .endDate(tourDto.endDate())

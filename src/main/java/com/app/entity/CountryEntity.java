@@ -18,10 +18,10 @@ import lombok.experimental.SuperBuilder;
 public class CountryEntity extends BaseEntity {
     protected String name;
 
+    @OneToOne(mappedBy = "countryEntity")
+    private TourEntity tourEntity;
+
     public CountryDto toCountryDto() {
         return new CountryDto(name);
     }
-
-    @OneToOne(mappedBy = "countryEntity")
-    private TourEntity tourEntity;
 }

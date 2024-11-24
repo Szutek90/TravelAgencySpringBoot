@@ -17,7 +17,6 @@ import java.time.LocalDate;
 @Setter
 @Getter
 public class TourEntity extends BaseEntity {
-    protected Integer agencyId;
     protected BigDecimal pricePerPerson;
     private LocalDate startDate;
     private LocalDate endDate;

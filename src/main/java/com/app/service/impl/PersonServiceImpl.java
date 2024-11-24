@@ -6,9 +6,11 @@ import com.app.repository.PersonRepository;
 import com.app.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService {
@@ -26,6 +28,7 @@ public class PersonServiceImpl implements PersonService {
         return personToSave.toPersonDto();
     }
 
+    //TODO [ 1 ] W obecnej postaci nie dam rady zaktualizowac enc
     @Override
     public PersonDto updatePerson(PersonEntity person) {
         if (personRepository.findById(person.getId()).isEmpty()) {

@@ -9,12 +9,14 @@ import com.app.repository.*;
 import com.app.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
@@ -117,7 +119,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public Map<TravelAgencyDto, TourWithClosestAvgPriceByAgency> getSummaryByTourAvgPrice() {
         var averagePriceByAgency = tourRepository.findAll().stream()
-                .collect(Collectors.groupingBy(TourEntity::getAgencyId,
+                .collect(Collectors.groupingBy(e->e.getTravelAgencyEntity().getId(),
                         Collectors.mapping(TourEntity::getPricePerPerson,
                                 Collectors.toList())))
                 .entrySet().stream()
@@ -129,7 +131,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .collect(Collectors.toMap(e -> travelAgencyRepository.findById(e.getKey())
                         .orElseThrow().toTravelAgencyDto(), e -> {
                     var closest = tourRepository.findAll().stream()
-                            .filter(t -> Objects.equals(t.getAgencyId(), e.getKey()))
+                            .filter(t -> Objects.equals(t.getTravelAgencyEntity().getId(), e.getKey()))
                             .min(Comparator.comparing(t -> t.getPricePerPerson()
                                     .subtract(e.getValue()).abs()))
                             .orElseThrow();

@@ -1,18 +1,32 @@
 {
   "tours": [
     {
-      "agencyId": 1,
-      "countryId": 1,
+      "travelAgencyEntity": {
+        "name": "Adventure Seekers",
+        "city": "Kraków",
+        "phoneNumber": "+48 987 654 321"
+      },
+      "countryEntity": {
+        "name": "Germany"
+      },
       "pricePerPerson": 2500,
       "startDate": "2024-09-01",
-      "endDate": "2024-09-10"
+      "endDate": "2024-09-10",
+      "version": 0
     },
     {
-      "agencyId": 2,
-      "countryId": 2,
+      "travelAgencyEntity": {
+        "name": "Relaxation Retreats",
+        "city": "Gdańsk",
+        "phoneNumber": "+48 564 738 290"
+      },
+      "countryEntity": {
+        "name": "France"
+      },
       "pricePerPerson": 3000,
       "startDate": "2024-10-05",
-      "endDate": "2024-10-15"
+      "endDate": "2024-10-15",
+      "version": 0
     }
   ]
 }

@@ -22,5 +22,5 @@ public interface TourRepository extends JpaRepository<TourEntity, Integer> {
 
     List<TourEntity> getTourEntitiesByStartDateAfter(LocalDate from);
 
-    List<TourEntity> getTourEntitiesByAgencyId(int agencyId);
+    List<TourEntity> getTourEntitiesByTravelAgencyEntityId(int agencyId);
 }

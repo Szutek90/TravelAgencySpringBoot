@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @SuperBuilder
-@Table(name = "countries")
+@Table(name = "reservations")
 @Entity
 @Setter
 @Getter

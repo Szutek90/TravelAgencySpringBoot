@@ -11,5 +11,7 @@ public interface TravelAgencyRepository extends JpaRepository<TravelAgencyEntity
 
     Optional<TravelAgencyEntity> getTravelAgencyEntityByName(String name);
 
+    Optional<TravelAgencyEntity> getTravelAgencyEntityByNameAndCity(String name, String city);
+
     List<TravelAgencyEntity> getTravelAgencyEntitiesByCity(String city);
 }
