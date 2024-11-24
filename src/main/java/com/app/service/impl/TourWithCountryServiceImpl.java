@@ -1,12 +1,16 @@
 package com.app.service.impl;
 
+import com.app.converter.tours.FileToToursConverter;
 import com.app.dto.TourDto;
-import com.app.entity.tour.TourEntity;
+import com.app.entity.TourEntity;
 import com.app.repository.CountryRepository;
 import com.app.repository.TourRepository;
 import com.app.repository.TravelAgencyRepository;
 import com.app.service.TourWithCountryService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -20,6 +24,22 @@ public class TourWithCountryServiceImpl implements TourWithCountryService {
     private final TourRepository tourRepository;
     private final CountryRepository countryRepository;
     private final TravelAgencyRepository travelAgencyRepository;
+    private final ApplicationContext context;
+
+    @Value("${tours.file}")
+    String filename;
+
+    @Value("${tours.format}")
+    String format;
+
+    @PostConstruct
+    public void init() {
+        var converter = context.getBean("%sFileToToursConverterImpl".formatted(format),
+                FileToToursConverter.class);
+        if (tourRepository.count() == 0) {
+            tourRepository.saveAll(converter.convert(filename));
+        }
+    }
 
     @Override
     public TourDto getById(int id) {
@@ -30,7 +50,7 @@ public class TourWithCountryServiceImpl implements TourWithCountryService {
 
     @Override
     public List<TourDto> getByCountry(String country) {
-        return tourRepository.getByCountryName(country).stream()
+        return tourRepository.getByCountryEntityName(country).stream()
                 .map(TourEntity::toTourDto)
                 .toList();
     }
@@ -81,7 +101,7 @@ public class TourWithCountryServiceImpl implements TourWithCountryService {
     public TourDto createTour(TourDto tourDto) {
         var agency = travelAgencyRepository.findByName(tourDto.agencyName())
                 .orElseThrow(() -> new IllegalArgumentException("There is no Travel Agency with given name"));
-        var country = countryRepository.findByCountry(tourDto.countryName())
+        var country = countryRepository.findByName(tourDto.countryName())
                 .orElseThrow(() -> new IllegalArgumentException("There is no country with given name"));
 
         var tourToSave = tourRepository.save(TourEntity.builder()

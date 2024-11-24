@@ -2,6 +2,7 @@ package com.app.controller;
 
 import com.app.controller.dto.ResponseDto;
 import com.app.dto.PersonDto;
+import com.app.entity.PersonEntity;
 import com.app.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +35,8 @@ public class PersonController {
         return new ResponseDto<>(personService.getPersonByNameAndSurname(name, surname));
     }
 
-    @PutMapping("/{id}")
-    public ResponseDto<PersonDto> updatePerson(@RequestBody PersonDto updatePersonDto, @PathVariable Integer id) {
-        return new ResponseDto<>(personService.updatePerson(updatePersonDto, id));
+    @PutMapping
+    public ResponseDto<PersonDto> updatePerson(@RequestBody PersonEntity person) {
+        return new ResponseDto<>(personService.updatePerson(person));
     }
 }

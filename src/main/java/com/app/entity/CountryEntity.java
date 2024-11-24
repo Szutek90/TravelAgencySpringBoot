@@ -1,17 +1,16 @@
-package com.app.entity.country;
+package com.app.entity;
 
 import com.app.dto.CountryDto;
-import com.app.entity.BaseEntity;
-import com.app.entity.tour.TourEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Builder
+@SuperBuilder
 @Table(name = "countries")
 @Entity
 @Setter

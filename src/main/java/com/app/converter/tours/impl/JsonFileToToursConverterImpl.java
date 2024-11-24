@@ -1,7 +1,7 @@
 package com.app.converter.tours.impl;
 
 import com.app.converter.tours.FileToToursConverter;
-import com.app.entity.tour.TourEntity;
+import com.app.entity.TourEntity;
 import com.app.persistence.json.deserializer.JsonDeserializer;
 import com.app.persistence.model.tour.ToursData;
 import lombok.RequiredArgsConstructor;

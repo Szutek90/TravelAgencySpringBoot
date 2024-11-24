@@ -1,6 +1,6 @@
 package com.app.persistence.model.agency;
 
-import com.app.entity.agency.TravelAgencyEntity;
+import com.app.entity.TravelAgencyEntity;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;

@@ -1,7 +1,7 @@
 package com.app.converter.countries;
 
 import com.app.converter.Converter;
-import com.app.entity.country.CountryEntity;
+import com.app.entity.CountryEntity;
 
 import java.util.List;
 

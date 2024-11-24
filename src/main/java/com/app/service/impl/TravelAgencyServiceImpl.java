@@ -1,10 +1,14 @@
 package com.app.service.impl;
 
+import com.app.converter.agencies.FileToAgenciesConverter;
 import com.app.dto.TravelAgencyDto;
-import com.app.entity.agency.TravelAgencyEntity;
+import com.app.entity.TravelAgencyEntity;
 import com.app.repository.TravelAgencyRepository;
 import com.app.service.TravelAgencyService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +18,22 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class TravelAgencyServiceImpl implements TravelAgencyService {
     private final TravelAgencyRepository travelAgencyRepository;
+    private final ApplicationContext context;
+
+    @Value("${agencies.file}")
+    private String filename;
+
+    @Value("${agencies.format}")
+    private String format;
+
+    @PostConstruct
+    public void init() {
+        var converter = context.getBean("%sFileToAgenciesConverterImpl".formatted(format),
+                FileToAgenciesConverter.class);
+        if (travelAgencyRepository.count() == 0) {
+            travelAgencyRepository.saveAll(converter.convert(filename));
+        }
+    }
 
     public List<TravelAgencyDto> getAllTravelAgency() {
         return travelAgencyRepository.findAll().stream()

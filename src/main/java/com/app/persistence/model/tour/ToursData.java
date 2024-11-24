@@ -1,6 +1,6 @@
 package com.app.persistence.model.tour;
 
-import com.app.entity.tour.TourEntity;
+import com.app.entity.TourEntity;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;

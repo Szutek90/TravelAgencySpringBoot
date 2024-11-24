@@ -1,6 +1,6 @@
 package com.app.persistence.model.country;
 
-import com.app.entity.country.CountryEntity;
+import com.app.entity.CountryEntity;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;

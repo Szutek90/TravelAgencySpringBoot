@@ -1,7 +1,7 @@
 package com.app.service.impl;
 
 import com.app.dto.PersonDto;
-import com.app.entity.person.PersonEntity;
+import com.app.entity.PersonEntity;
 import com.app.repository.PersonRepository;
 import com.app.service.PersonService;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +27,11 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonDto updatePerson(PersonDto updatePersonDto, Integer id) {
-        if (personRepository.findById(id).isEmpty()) {
-            throw new IllegalArgumentException("Person with given id does not exist");
+    public PersonDto updatePerson(PersonEntity person) {
+        if (personRepository.findById(person.getId()).isEmpty()) {
+            throw new IllegalArgumentException("There is no current Person in database");
         }
-        var updatedPerson = personRepository.update(new PersonEntity(updatePersonDto), id);
+        var updatedPerson = personRepository.save(person);
         return updatedPerson.toPersonDto();
     }
 

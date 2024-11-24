@@ -2,10 +2,8 @@ package com.app.controller;
 
 import com.app.controller.dto.ResponseDto;
 import com.app.dto.TourDto;
-import com.app.entity.tour.TourEntity;
 import com.app.service.TourWithCountryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -19,7 +17,7 @@ public class TourWithCountryController {
     private final TourWithCountryService service;
 
     @GetMapping("/{id}")
-    public ResponseDto<TourEntity> getById(@PathVariable Integer id) {
+    public ResponseDto<TourDto> getById(@PathVariable Integer id) {
         return new ResponseDto<>(service.getById(id));
     }
 

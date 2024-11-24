@@ -1,6 +1,6 @@
 package com.app.persistence.model.tour;
 
-import com.app.entity.tour.TourEntity;
+import com.app.entity.TourEntity;
 import com.app.persistence.xml.adapter.LocalDateAdapter;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;

@@ -1,7 +1,7 @@
 package com.app.converter.agencies.impl;
 
 import com.app.converter.agencies.FileToAgenciesConverter;
-import com.app.entity.agency.TravelAgencyEntity;
+import com.app.entity.TravelAgencyEntity;
 import com.app.persistence.json.deserializer.JsonDeserializer;
 import com.app.persistence.model.agency.TravelAgenciesData;
 import lombok.RequiredArgsConstructor;

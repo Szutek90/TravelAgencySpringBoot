@@ -1,12 +1,11 @@
-package com.app.entity.person;
+package com.app.entity;
 
 import com.app.dto.PersonDto;
-import com.app.entity.BaseEntity;
-import com.app.entity.reservation.ReservationEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Builder
+@SuperBuilder
 @Table(name = "persons")
 @Entity
 @Setter

@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: TravelAgencySpringBoot
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    url: jdbc:mysql://localhost:3307/db_1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    name: user
+    password: user1234

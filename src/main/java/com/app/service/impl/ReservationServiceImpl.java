@@ -4,11 +4,7 @@ import com.app.dto.CountryDto;
 import com.app.dto.TourDto;
 import com.app.dto.TravelAgencyDto;
 import com.app.dto.ReservationDto;
-import com.app.entity.TourWithClosestAvgPriceByAgency;
-import com.app.entity.agency.TravelAgencyEntity;
-import com.app.entity.country.CountryEntity;
-import com.app.entity.reservation.ReservationEntity;
-import com.app.entity.tour.TourEntity;
+import com.app.entity.*;
 import com.app.repository.*;
 import com.app.service.ReservationService;
 import lombok.RequiredArgsConstructor;
@@ -144,10 +140,18 @@ public class ReservationServiceImpl implements ReservationService {
     public List<TourDto> getToursTakingPlaceInGivenCountry(List<String> countryNames) {
         var tours = new ArrayList<TourDto>();
         for (String countryName : countryNames) {
-            tours.addAll(tourRepository.getByCountryName(countryName).stream()
+            tours.addAll(tourRepository.getByCountryEntityName(countryName).stream()
                     .map(TourEntity::toTourDto)
                     .toList());
         }
         return tours;
+    }
+
+    @Override
+    public ReservationComponent saveComponent(Integer id, ReservationComponent item) {
+        var reservation = reservationRepository.findById(id).orElseThrow();
+        reservation.getComponents().add(item);
+        reservationRepository.save(reservation);
+        return item;
     }
 }

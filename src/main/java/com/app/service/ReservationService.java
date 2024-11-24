@@ -4,6 +4,7 @@ import com.app.dto.CountryDto;
 import com.app.dto.TourDto;
 import com.app.dto.TravelAgencyDto;
 import com.app.dto.ReservationDto;
+import com.app.entity.ReservationComponent;
 import com.app.entity.TourWithClosestAvgPriceByAgency;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface ReservationService {
     Map<TravelAgencyDto, TourWithClosestAvgPriceByAgency> getSummaryByTourAvgPrice();
 
     List<TourDto> getToursTakingPlaceInGivenCountry(List<String> countryNames);
+
+    ReservationComponent saveComponent(Integer id, ReservationComponent item);
 }

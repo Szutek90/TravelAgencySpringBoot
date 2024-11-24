@@ -1,7 +1,7 @@
 package com.app.converter.agencies;
 
 import com.app.converter.Converter;
-import com.app.entity.agency.TravelAgencyEntity;
+import com.app.entity.TravelAgencyEntity;
 
 import java.util.List;
 

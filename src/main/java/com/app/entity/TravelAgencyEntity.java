@@ -1,13 +1,12 @@
-package com.app.entity.agency;
+package com.app.entity;
 
 import com.app.dto.TravelAgencyDto;
-import com.app.entity.BaseEntity;
-import com.app.entity.tour.TourEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Builder
+@SuperBuilder
 @Table(name = "travel_agencies")
 @Entity
 @Setter

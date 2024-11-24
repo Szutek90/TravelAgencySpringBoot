@@ -1,12 +1,9 @@
-package com.app.entity.reservation;
+package com.app.entity;
 
 import com.app.dto.ReservationDto;
-import com.app.entity.BaseEntity;
-import com.app.entity.ReservationComponent;
-import com.app.entity.person.PersonEntity;
-import com.app.entity.tour.TourEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Builder
+@SuperBuilder
 @Table(name = "countries")
 @Entity
 @Setter

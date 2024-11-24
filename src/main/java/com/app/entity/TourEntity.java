@@ -1,12 +1,9 @@
-package com.app.entity.tour;
+package com.app.entity;
 
 import com.app.dto.TourDto;
-import com.app.entity.BaseEntity;
-import com.app.entity.agency.TravelAgencyEntity;
-import com.app.entity.country.CountryEntity;
-import com.app.entity.reservation.ReservationEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Builder
+@SuperBuilder
 @Table(name = "tours")
 @Entity
 @Setter

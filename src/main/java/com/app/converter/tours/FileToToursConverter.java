@@ -1,7 +1,7 @@
 package com.app.converter.tours;
 
 import com.app.converter.Converter;
-import com.app.entity.tour.TourEntity;
+import com.app.entity.TourEntity;
 
 import java.util.List;
 
