@@ -28,14 +28,14 @@ public class PersonServiceImpl implements PersonService {
         return personToSave.toPersonDto();
     }
 
-    //TODO [ 1 ] W obecnej postaci nie dam rady zaktualizowac enc
     @Override
-    public PersonDto updatePerson(PersonEntity person) {
-        if (personRepository.findById(person.getId()).isEmpty()) {
-            throw new IllegalArgumentException("There is no current Person in database");
-        }
-        var updatedPerson = personRepository.save(person);
-        return updatedPerson.toPersonDto();
+    public PersonDto updatePerson(PersonDto personDto, Integer id) {
+        var personToUpdate = personRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("There is no Person with given Id"));
+        personToUpdate.setName(personDto.name());
+        personToUpdate.setSurname(personDto.surname());
+        personToUpdate.setEmail(personDto.email());
+        return personRepository.save(personToUpdate).toPersonDto();
     }
 
     @Override

@@ -10,7 +10,4 @@ public class TravelAgencySpringBootApplication {
         SpringApplication.run(TravelAgencySpringBootApplication.class, args);
     }
 
-    //TODO [ 1 ] Dlaczego mimo, że w CountryEntity mam tylko pola id, name to w DB stworzyło mi dodatkowe kolumny agency_id,
-    // customer_id, discount, quantity of people. Te kolumny powinny być w
-
 }
