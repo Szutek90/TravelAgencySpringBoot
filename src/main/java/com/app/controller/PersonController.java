@@ -30,7 +30,7 @@ public class PersonController {
         return new ResponseDto<>(personService.getPersonById(id));
     }
 
-    @GetMapping()
+    @GetMapping("/nameAndSurname")
     public ResponseDto<PersonDto> getPersonByNameAndSurname(@RequestParam String name, @RequestParam String surname) {
         return new ResponseDto<>(personService.getPersonByNameAndSurname(name, surname));
     }

@@ -33,12 +33,12 @@ public class ReservationController {
         reservationService.deleteReservation(id);
     }
 
-    @GetMapping("/most/trips")
+    @GetMapping("/most/countries")
     public ResponseDto<List<CountryDto>> getMostVisitedCountries() {
         return new ResponseDto<>(reservationService.getMostVisitedCountries());
     }
 
-    @GetMapping("/most/trips")
+    @GetMapping("/most/agencies")
     public ResponseDto<List<TravelAgencyDto>> getMostOrganizedTrips() {
         return new ResponseDto<>(reservationService.getAgencyWithMostOrganizedTrips());
     }
