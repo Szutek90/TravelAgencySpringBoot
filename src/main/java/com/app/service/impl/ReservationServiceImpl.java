@@ -29,10 +29,10 @@ public class ReservationServiceImpl implements ReservationService {
         if (tourRepository.findById(reservationDto.tourId()).isEmpty()) {
             throw new IllegalStateException("tour not found");
         }
-        var travelAgency = travelAgencyRepository.findByName(reservationDto.agencyName())
+        var travelAgency = travelAgencyRepository.getTravelAgencyEntityByName(reservationDto.agencyName())
                 .orElseThrow(() ->
                         new IllegalArgumentException("There is no Travel Agency with given name"));
-        var customer = personRepository.findByEmail(reservationDto.person().email())
+        var customer = personRepository.getPersonEntityByEmail(reservationDto.person().email())
                 .orElseThrow(() -> new IllegalArgumentException("There is no Customer with given email"));
 
         reservationRepository.save(
@@ -141,7 +141,7 @@ public class ReservationServiceImpl implements ReservationService {
     public List<TourDto> getToursTakingPlaceInGivenCountry(List<String> countryNames) {
         var tours = new ArrayList<TourDto>();
         for (String countryName : countryNames) {
-            tours.addAll(tourRepository.getByCountryEntityName(countryName).stream()
+            tours.addAll(tourRepository.getTourEntitiesByCountryEntityName(countryName).stream()
                     .map(TourEntity::toTourDto)
                     .toList());
         }

@@ -50,14 +50,14 @@ public class TourWithCountryServiceImpl implements TourWithCountryService {
 
     @Override
     public List<TourDto> getByCountry(String country) {
-        return tourRepository.getByCountryEntityName(country).stream()
+        return tourRepository.getTourEntitiesByCountryEntityName(country).stream()
                 .map(TourEntity::toTourDto)
                 .toList();
     }
 
     @Override
     public List<TourDto> getToursInPriceRange(BigDecimal from, BigDecimal to) {
-        return tourRepository.getInPriceRange(from, to).stream()
+        return tourRepository.getTourEntitiesByPricePerPersonBetween(from, to).stream()
                 .map(TourEntity::toTourDto)
                 .toList();
     }
@@ -78,30 +78,30 @@ public class TourWithCountryServiceImpl implements TourWithCountryService {
 
     @Override
     public List<TourDto> getToursInRange(LocalDate from, LocalDate to) {
-        return tourRepository.getInDateRange(from, to).stream()
+        return tourRepository.getTourEntitiesByStartDateAfterAndEndDateBefore(from, to).stream()
                 .map(TourEntity::toTourDto)
                 .toList();
     }
 
     @Override
     public List<TourDto> getToursAfterDate(LocalDate from) {
-        return tourRepository.getAfterGivenDate(from).stream()
+        return tourRepository.getTourEntitiesByStartDateAfter(from).stream()
                 .map(TourEntity::toTourDto)
                 .toList();
     }
 
     @Override
     public List<TourDto> getToursBeforeDate(LocalDate to) {
-        return tourRepository.getBeforeGivenDate(to).stream()
+        return tourRepository.getTourEntitiesByEndDateBefore(to).stream()
                 .map(TourEntity::toTourDto)
                 .toList();
     }
 
     @Override
     public TourDto createTour(TourDto tourDto) {
-        var agency = travelAgencyRepository.findByName(tourDto.agencyName())
+        var agency = travelAgencyRepository.getTravelAgencyEntityByName(tourDto.agencyName())
                 .orElseThrow(() -> new IllegalArgumentException("There is no Travel Agency with given name"));
-        var country = countryRepository.findByName(tourDto.countryName())
+        var country = countryRepository.getCountryEntityByName(tourDto.countryName())
                 .orElseThrow(() -> new IllegalArgumentException("There is no country with given name"));
 
         var tourToSave = tourRepository.save(TourEntity.builder()

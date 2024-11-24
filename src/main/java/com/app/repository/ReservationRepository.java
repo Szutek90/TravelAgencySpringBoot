@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<ReservationEntity, Integer> {
     @Query("SELECT c FROM ReservationEntity r JOIN r.components c WHERE r.id = :reservationId")
-    List<ReservationComponent> findComponentsByReservationId(@Param("reservationId") Integer reservationId);
+    List<ReservationComponent> getComponentsByReservationId(@Param("reservationId") Integer reservationId);
 }

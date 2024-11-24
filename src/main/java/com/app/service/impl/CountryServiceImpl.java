@@ -35,7 +35,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     public CountryDto addCountry(CountryDto countryDto) {
-        if (countryRepository.findByName(countryDto.name()).isPresent()) {
+        if (countryRepository.getCountryEntityByName(countryDto.name()).isPresent()) {
             throw new IllegalArgumentException("Country already exists");
         }
 

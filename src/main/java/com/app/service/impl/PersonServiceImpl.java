@@ -15,7 +15,7 @@ public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
 
     public PersonDto addPerson(PersonDto personDto) {
-        if (personRepository.findByEmail(personDto.email()).isPresent()) {
+        if (personRepository.getPersonEntityByEmail(personDto.email()).isPresent()) {
             throw new IllegalArgumentException("Person with given email already exist");
         }
         var personToSave = personRepository.save(PersonEntity.builder()
@@ -44,7 +44,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonDto getPersonByNameAndSurname(String name, String surname) {
-        return personRepository.findByNameAndSurname(name, surname)
+        return personRepository.getPersonEntityByNameAndSurname(name, surname)
                 .orElseThrow(() -> new IllegalArgumentException("There is no Person with given id"))
                 .toPersonDto();
     }

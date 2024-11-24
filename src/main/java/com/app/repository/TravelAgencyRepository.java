@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TravelAgencyRepository extends JpaRepository<TravelAgencyEntity, Integer> {
-    Optional<TravelAgencyEntity> findById(int id);
+    Optional<TravelAgencyEntity> getTravelAgencyEntityById(int id);
 
-    Optional<TravelAgencyEntity> findByName(String name);
+    Optional<TravelAgencyEntity> getTravelAgencyEntityByName(String name);
 
-    List<TravelAgencyEntity> findByCity(String city);
+    List<TravelAgencyEntity> getTravelAgencyEntitiesByCity(String city);
 }

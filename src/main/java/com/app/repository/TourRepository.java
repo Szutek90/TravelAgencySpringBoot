@@ -8,19 +8,19 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface TourRepository extends JpaRepository<TourEntity, Integer> {
-    List<TourEntity> getByCountryEntityName(String countryName);
+    List<TourEntity> getTourEntitiesByCountryEntityName(String countryName);
 
-    List<TourEntity> getInPriceRange(BigDecimal from, BigDecimal to);
+    List<TourEntity> getTourEntitiesByPricePerPersonBetween(BigDecimal from, BigDecimal to);
 
     List<TourEntity> getTourEntitiesByPricePerPersonBefore(BigDecimal to);
 
     List<TourEntity> getTourEntitiesByPricePerPersonAfter(BigDecimal from);
 
-    List<TourEntity> getInDateRange(LocalDate from, LocalDate to);
+    List<TourEntity> getTourEntitiesByStartDateAfterAndEndDateBefore(LocalDate from, LocalDate to);
 
-    List<TourEntity> getBeforeGivenDate(LocalDate to);
+    List<TourEntity> getTourEntitiesByEndDateBefore(LocalDate to);
 
-    List<TourEntity> getAfterGivenDate(LocalDate from);
+    List<TourEntity> getTourEntitiesByStartDateAfter(LocalDate from);
 
-    List<TourEntity> getById(int agencyId);
+    List<TourEntity> getTourEntitiesByAgencyId(int agencyId);
 }
