@@ -22,6 +22,6 @@ public class CountryEntity extends BaseEntity {
         return new CountryDto(name);
     }
 
-    @OneToOne(mappedBy = "country")
+    @OneToOne(mappedBy = "countryEntity")
     private TourEntity tourEntity;
 }

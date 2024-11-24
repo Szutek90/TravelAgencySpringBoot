@@ -12,9 +12,9 @@ public interface TourRepository extends JpaRepository<TourEntity, Integer> {
 
     List<TourEntity> getInPriceRange(BigDecimal from, BigDecimal to);
 
-    List<TourEntity> getLessThanGivenPrice(BigDecimal to);
+    List<TourEntity> getTourEntitiesByPricePerPersonBefore(BigDecimal to);
 
-    List<TourEntity> getMoreExpensiveThanGivenPrice(BigDecimal from);
+    List<TourEntity> getTourEntitiesByPricePerPersonAfter(BigDecimal from);
 
     List<TourEntity> getInDateRange(LocalDate from, LocalDate to);
 

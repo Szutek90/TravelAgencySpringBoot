@@ -16,8 +16,6 @@ public class TourData {
     @XmlElement
     protected Integer agencyId;
     @XmlElement
-    protected Integer countryId;
-    @XmlElement
     protected BigDecimal pricePerPerson;
     @XmlElement
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
@@ -29,7 +27,6 @@ public class TourData {
     public TourEntity toTour() {
         return TourEntity.builder()
                 .agencyId(agencyId)
-                .countryId(countryId)
                 .pricePerPerson(pricePerPerson)
                 .startDate(startDate)
                 .endDate(endDate)

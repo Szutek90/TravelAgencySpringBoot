@@ -28,6 +28,6 @@ public class TravelAgencyEntity extends BaseEntity {
         return new TravelAgencyDto(name, city, phoneNumber);
     }
 
-    @OneToMany(mappedBy = "travel_agency", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "travelAgencyEntity", cascade = CascadeType.ALL)
     private List<TourEntity> tourEntities = new ArrayList<>();
 }

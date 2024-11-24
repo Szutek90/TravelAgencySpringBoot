@@ -64,14 +64,14 @@ public class TourWithCountryServiceImpl implements TourWithCountryService {
 
     @Override
     public List<TourDto> getToursCheaperThan(BigDecimal priceTo) {
-        return tourRepository.getLessThanGivenPrice(priceTo).stream()
+        return tourRepository.getTourEntitiesByPricePerPersonBefore(priceTo).stream()
                 .map(TourEntity::toTourDto)
                 .toList();
     }
 
     @Override
     public List<TourDto> getToursMoreExpensiveThan(BigDecimal priceFrom) {
-        return tourRepository.getMoreExpensiveThanGivenPrice(priceFrom).stream()
+        return tourRepository.getTourEntitiesByPricePerPersonAfter(priceFrom).stream()
                 .map(TourEntity::toTourDto)
                 .toList();
     }
@@ -106,7 +106,6 @@ public class TourWithCountryServiceImpl implements TourWithCountryService {
 
         var tourToSave = tourRepository.save(TourEntity.builder()
                 .agencyId(agency.getId())
-                .countryId(country.getId())
                 .pricePerPerson(tourDto.pricePerPerson())
                 .startDate(tourDto.startDate())
                 .endDate(tourDto.endDate())

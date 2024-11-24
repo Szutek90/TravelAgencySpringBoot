@@ -33,6 +33,6 @@ public class PersonEntity extends BaseEntity {
         return new PersonDto(name, surname, email);
     }
 
-    @ManyToMany(mappedBy = "persons")
+    @ManyToMany(mappedBy = "personEntities")
     private List<ReservationEntity> reservationEntities = new ArrayList<>();
 }

@@ -37,7 +37,8 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservationRepository.save(
                 ReservationEntity.builder()
-                        .tourId(reservationDto.tourId())
+                        .tourEntity(tourRepository.findById(reservationDto.tourId())
+                                .orElseThrow((() -> new IllegalArgumentException("There is no tour with given id"))))
                         .agencyId(travelAgency.getId())
                         .customerId(customer.getId())
                         .quantityOfPeople(reservationDto.quantityOfPeople())
@@ -99,7 +100,7 @@ public class ReservationServiceImpl implements ReservationService {
     public List<CountryDto> getMostVisitedCountries() {
         var countriesWithChoicesNum = reservationRepository.findAll().stream()
                 .collect(Collectors.groupingBy(e -> countryRepository
-                        .findById((tourRepository.findById(e.getTourId()).orElseThrow()).getCountryId())
+                        .findById((tourRepository.findById(e.getTourEntity().getId()).orElseThrow()).getCountryEntity().getId())
                         .orElseThrow(), Collectors.counting()));
         return countriesWithChoicesNum.entrySet().stream()
                 .collect(Collectors.groupingBy(Map.Entry::getValue,

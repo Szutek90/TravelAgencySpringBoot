@@ -18,16 +18,15 @@ import java.time.LocalDate;
 @Getter
 public class TourEntity extends BaseEntity {
     protected Integer agencyId;
-    protected Integer countryId;
     protected BigDecimal pricePerPerson;
     private LocalDate startDate;
     private LocalDate endDate;
 
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "tour_id", unique = true)
+    @JoinColumn(name = "country_id", unique = true)
     private CountryEntity countryEntity;
 
-    @OneToOne(mappedBy = "tour")
+    @OneToOne(mappedBy = "tourEntity")
     private ReservationEntity reservationEntity;
 
     @ManyToOne
